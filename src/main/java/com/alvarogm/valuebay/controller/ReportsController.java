@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.architechture.controllers;
+package com.alvarogm.valuebay.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

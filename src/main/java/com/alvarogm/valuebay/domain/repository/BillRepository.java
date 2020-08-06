@@ -1,16 +1,8 @@
 package com.alvarogm.valuebay.domain.repository;
 
-import com.alvarogm.valuebay.domain.dto.BillDto;
-import org.springframework.stereotype.Repository;
+import com.alvarogm.valuebay.domain.model.Bill;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class BillRepository{
-
-    public void insert(BillDto bill){}
-
-    public void modify(int lotId){}
-
-    public void get(int lotId){}
-
-    public void delete(int lotId){}
+public interface BillRepository extends JpaRepository<Bill, String> {
+    Bill findByLotId(Integer lotId);
 }

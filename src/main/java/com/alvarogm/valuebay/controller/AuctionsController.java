@@ -1,6 +1,6 @@
-package com.alvarogm.valuebay.architechture.controllers;
+package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.architechture.services.AuctionService;
+import com.alvarogm.valuebay.service.AuctionService;
 import com.alvarogm.valuebay.domain.dto.AuctionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,13 +1,13 @@
-package com.alvarogm.valuebay.architechture.controllers;
+package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.architechture.services.BillService;
-import com.alvarogm.valuebay.domain.dto.BillDto;
+import com.alvarogm.valuebay.domain.model.Bill;
+import com.alvarogm.valuebay.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,15 +18,15 @@ public class BillsController {
     BillService billService;
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<BillDto> getBill(@PathVariable(name = "id") Integer lotId){
+    public ResponseEntity<Bill> getBill(@PathVariable(name = "id") Integer lotId){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(billService.findById(lotId));
     }
 
     @GetMapping(value = "/get/all", produces = "application/json")
-    public ResponseEntity<ArrayList<BillDto>> getBills(){
+    public ResponseEntity<List<Bill>> getBills(){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(billService.findAll());
     }
 
     @PostMapping(value = "/insert", produces = "application/json")

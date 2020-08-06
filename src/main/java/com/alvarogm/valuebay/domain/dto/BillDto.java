@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class BillDto {
 
     private int lotId;
-    private String billType;
     private int value;
     private int emissionYear;
     private int emissionMonth;

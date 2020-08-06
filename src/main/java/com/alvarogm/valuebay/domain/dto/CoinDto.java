@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class CoinDto {
 
     private int lotId;
-    private String coinType;
     private int value;
     private int emissionYear;
     private ConservationStatus conservationStatus;

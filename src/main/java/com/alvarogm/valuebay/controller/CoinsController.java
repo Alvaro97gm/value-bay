@@ -1,12 +1,14 @@
-package com.alvarogm.valuebay.architechture.controllers;
+package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.architechture.services.CoinService;
+import com.alvarogm.valuebay.domain.model.Coin;
+import com.alvarogm.valuebay.service.CoinService;
 import com.alvarogm.valuebay.domain.dto.CoinDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -17,15 +19,15 @@ public class CoinsController {
     CoinService coinService;
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<CoinDto> getCoin(@PathVariable(name = "id") Integer lotId){
+    public ResponseEntity<Coin> getCoin(@PathVariable(name = "id") Integer lotId){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(coinService.findById(lotId));
     }
 
     @GetMapping(value = "/get/all", produces = "application/json")
-    public ResponseEntity<ArrayList<CoinDto>> getCoins(){
+    public ResponseEntity<List<Coin>> getCoins(){
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(coinService.findAll());
     }
 
     @PostMapping(value = "/insert", produces = "application/json")
