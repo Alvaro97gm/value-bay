@@ -19,7 +19,11 @@ public class CoinService{
         return coinRepository.findAll();
     }
 
-    public Coin findById(Integer lotId){
+    public Coin findByLotId(Integer lotId){
         return coinRepository.findByLotId(lotId);
+    }
+
+    public void deleteByLotId(Integer lotId){
+        coinRepository.deleteByLotId(lotId);
     }
 }

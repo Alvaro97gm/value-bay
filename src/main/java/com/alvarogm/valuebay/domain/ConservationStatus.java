@@ -15,4 +15,15 @@ public enum ConservationStatus {
     public String getDetailedStatus() {
         return detailedStatus;
     }
+
+    public static String translateConservationStatus(String rawConservationStatus){
+        switch (rawConservationStatus){
+
+            case "BC"   :   return ConservationStatus.BC.getDetailedStatus();
+            case "MBC"  :   return ConservationStatus.MBC.getDetailedStatus();
+            case "EBC"  :   return ConservationStatus.EBC.getDetailedStatus();
+            case "SC"   :   return ConservationStatus.SC.getDetailedStatus();
+            default     :   return null;
+        }
+    }
 }

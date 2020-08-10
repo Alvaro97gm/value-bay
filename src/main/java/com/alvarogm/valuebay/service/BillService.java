@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// TODO: Gestionar excepciones si no se encuentran ocurrencias
-
 @Service
 public class BillService {
 
@@ -19,7 +17,11 @@ public class BillService {
         return billRepository.findAll();
     }
 
-    public Bill findById(Integer lotId){
+    public Bill findByLotId(Integer lotId){
         return billRepository.findByLotId(lotId);
+    }
+
+    public void deleteByLotId(Integer lotId){
+        billRepository.deleteByLotId(lotId);
     }
 }
