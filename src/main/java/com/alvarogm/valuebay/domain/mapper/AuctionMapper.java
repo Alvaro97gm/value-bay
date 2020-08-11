@@ -26,7 +26,6 @@ public abstract class AuctionMapper {
     public abstract AuctionDTO auctionToAuctionDTO(Auction auction);
     public abstract List<AuctionDTO> auctionsToAuctionDTOs(List<Auction> auctions);
     public abstract Auction auctionDTOToAuction(AuctionDTO auctionDTO);
-    public abstract List<Auction> auctionDTOsToAuctions(List<AuctionDTO> auctionDTOS);
 
     @AfterMapping
     public void fillLots(@MappingTarget AuctionDTO auctionDto, Auction auction) {

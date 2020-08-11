@@ -1,6 +1,7 @@
 package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.domain.model.Bill;
+import com.alvarogm.valuebay.domain.dto.BillDTO;
+import com.alvarogm.valuebay.domain.mapper.BillMapper;
 import com.alvarogm.valuebay.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,20 +19,23 @@ public class BillController {
     @Autowired
     BillService billService;
 
+    @Autowired
+    BillMapper billMapper;
+
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<Bill> getBill(@PathVariable(name = "id") Integer lotId){
+    public ResponseEntity<BillDTO> getBill(@PathVariable(name = "id") Integer lotId){
 
-        Bill result = billService.findByLotId(lotId);
+        BillDTO result = billMapper.billToBillDTO(billService.findByLotId(lotId));
         if (result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }
 
 
     @GetMapping(value = "/get/all", produces = "application/json")
-    public ResponseEntity<List<Bill>> getBills(){
+    public ResponseEntity<List<BillDTO>> getBills(){
 
-        List<Bill> result = billService.findAll();
+        List<BillDTO> result = billMapper.billsToBillDTOs(billService.findAll());
         if (result.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }

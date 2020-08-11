@@ -1,7 +1,5 @@
 package com.alvarogm.valuebay.domain.dto;
 
-import org.springframework.lang.Nullable;
-
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +9,7 @@ public class AuctionDTO {
     private List<Integer> lotIds;
     private Date endTime;
     private boolean active;
+
 
     public AuctionDTO(){}
     public AuctionDTO(Integer auctionId, Date endTime, boolean active){

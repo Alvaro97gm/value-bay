@@ -8,13 +8,16 @@ public enum ConservationStatus {
 
     private final String detailedStatus;
 
+
     ConservationStatus(String detailedStatus){
         this.detailedStatus = detailedStatus;
     }
 
+
     public String getDetailedStatus() {
         return detailedStatus;
     }
+
 
     public static String translateConservationStatus(String rawConservationStatus){
         switch (rawConservationStatus){
@@ -26,6 +29,7 @@ public enum ConservationStatus {
             default     :   return null;
         }
     }
+
 
     public static boolean isValidConservationStatus(String rawConservationStatus){
 

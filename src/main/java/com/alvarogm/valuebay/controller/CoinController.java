@@ -1,7 +1,7 @@
 package com.alvarogm.valuebay.controller;
 
 import com.alvarogm.valuebay.domain.dto.CoinDTO;
-import com.alvarogm.valuebay.domain.model.Coin;
+import com.alvarogm.valuebay.domain.mapper.CoinMapper;
 import com.alvarogm.valuebay.service.CoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,24 +16,26 @@ import java.util.List;
 @Transactional
 public class CoinController {
 
-
     @Autowired
     CoinService coinService;
 
+    @Autowired
+    CoinMapper coinMapper;
+
 
     @GetMapping(value = "/get/{lotId}", produces = "application/json")
-    public ResponseEntity<Coin> getCoin(@PathVariable(name = "lotId") Integer lotId){
+    public ResponseEntity<CoinDTO> getCoin(@PathVariable(name = "lotId") Integer lotId){
 
-        Coin result = coinService.findByLotId(lotId);
+        CoinDTO result = coinMapper.coinToCoinDTO(coinService.findByLotId(lotId));
         if (result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }
 
 
     @GetMapping(value = "/get/all", produces = "application/json")
-    public ResponseEntity<List<Coin>> getCoins(){
+    public ResponseEntity<List<CoinDTO>> getCoins(){
 
-        List<Coin> result = coinService.findAll();
+        List<CoinDTO> result = coinMapper.coinsToCoinDTOs(coinService.findAll());
         if (result.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }

@@ -1,6 +1,5 @@
 package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.domain.mapper.AuctionMapper;
 import com.alvarogm.valuebay.service.AuctionService;
 import com.alvarogm.valuebay.domain.dto.AuctionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ public class AuctionController {
 
     @Autowired
     AuctionService auctionService;
-
-    @Autowired
-    AuctionMapper auctionMapper;
 
 
     @GetMapping(value = "/get/{id}", produces = "application/json")
