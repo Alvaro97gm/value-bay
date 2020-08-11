@@ -9,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auctions")
@@ -25,6 +23,7 @@ public class AuctionController {
     @Autowired
     AuctionMapper auctionMapper;
 
+
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<AuctionDTO> getAuction(@PathVariable(name = "id") Integer auctionId){
 
@@ -33,6 +32,7 @@ public class AuctionController {
         if(result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }
+
 
     @GetMapping(value = "/get/all", produces = "application/json")
     public ResponseEntity<List<AuctionDTO>> getAuctions(){
@@ -43,21 +43,17 @@ public class AuctionController {
         return ResponseEntity.ok(result);
     }
 
+
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> createAuction(
-            @RequestParam("auctionId") Integer auctionId,
+            @RequestParam(value = "auctionId") Integer auctionId,
             @RequestParam(value = "lotIds", required = false) List<Integer> lotIds,
-            @RequestParam(value = "endTime", required = false) Date endTime
+            @RequestParam(value = "hoursActive", required = false) Integer hoursActive
     ){
 
-        AuctionDTO auctionDTO = new AuctionDTO();
-
-        auctionDTO.setAuctionId(auctionId);
-        if(!lotIds.isEmpty()) auctionDTO.setLotIds(lotIds);
-        if(endTime != null) auctionDTO.setEndTime(endTime);
-
         try{
-            auctionService.insertAuction(auctionDTO);
+            auctionService.insertAuction(auctionService.createAuctionDTO(auctionId, lotIds, hoursActive));
+            System.out.println("[AUCTIONS] - Subasta: " + auctionId + " insertada en el sistema." );
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -65,11 +61,32 @@ public class AuctionController {
         }
     }
 
+
+    @PostMapping(value = "/mod/{auctionId}", produces = "application/json")
+    public ResponseEntity<ResponseStatus> modifyAuction(
+        @PathVariable(name = "auctionId") Integer auctionId,
+        @RequestParam(value = "endTime", required = false) Date endTime,
+        @RequestParam(value = "addLotIds", required = false) List<Integer> addLotsIds,
+        @RequestParam(value = "delLotIds", required = false) List<Integer> delLotsIds,
+        @RequestParam(value = "active", required = false) Boolean active
+    ){
+        try{
+            auctionService.modifyAuction(auctionId, endTime, addLotsIds, delLotsIds, active);
+            System.out.println("[AUCTIONS] - Subasta: " + auctionId + " modificada.");
+            return ResponseEntity.ok().build();
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
     @DeleteMapping(value = "/delete/{id}", produces = "application/json")
     public ResponseEntity<ResponseStatus> deleteAuction(@PathVariable(name = "id") Integer auctionId){
 
         try{
             auctionService.deleteByAuctionId(auctionId);
+            System.out.println("[AUCTIONS] - Subasta: " + auctionId + " eliminada del sistema." );
             return ResponseEntity.ok().build();
         }catch(Exception e){
             System.out.println(e.getMessage());

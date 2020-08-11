@@ -1,42 +1,36 @@
 package com.alvarogm.valuebay.domain.dto;
 
-import com.alvarogm.valuebay.domain.ConservationStatus;
-import lombok.Data;
-
 import java.util.List;
 
-@Data
 public class CoinDTO {
 
-    private int lotId;
-    private int value;
-    private int emissionYear;
+    private Integer lotId;
+    private Integer itemValue;
+    private Integer emissionYear;
     private String conservationStatus;
     private String conservationStatusDetailed;
     private float price;
     private List<String> picturesURLs;
 
     public CoinDTO(){}
-    public CoinDTO(int lotId, int value, int emissionYear, String conservationStatus,
-                   String conservationStatusDetailed, float price, List<String> picturesURLs){
+    public CoinDTO(Integer lotId, Integer itemValue, Integer emissionYear,
+                   String conservationStatus, float price){
         this.lotId = lotId;
-        this.value = value;
+        this.itemValue = itemValue;
         this.emissionYear = emissionYear;
         this.conservationStatus = conservationStatus;
-        this.conservationStatusDetailed = conservationStatusDetailed;
         this.price = price;
-        this.picturesURLs = picturesURLs;
     }
 
-    public int getLotId() {
+    public Integer getLotId() {
         return lotId;
     }
 
-    public int getValue() {
-        return value;
+    public Integer getItemValue() {
+        return itemValue;
     }
 
-    public int getEmissionYear() {
+    public Integer getEmissionYear() {
         return emissionYear;
     }
 
@@ -56,15 +50,15 @@ public class CoinDTO {
         return picturesURLs;
     }
 
-    public void setLotId(int lotId) {
+    public void setLotId(Integer lotId) {
         this.lotId = lotId;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setItemValue(Integer itemValue) {
+        this.itemValue = itemValue;
     }
 
-    public void setEmissionYear(int emissionYear) {
+    public void setEmissionYear(Integer emissionYear) {
         this.emissionYear = emissionYear;
     }
 

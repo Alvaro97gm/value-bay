@@ -1,5 +1,6 @@
 package com.alvarogm.valuebay.controller;
 
+import com.alvarogm.valuebay.domain.dto.CoinDTO;
 import com.alvarogm.valuebay.domain.model.Coin;
 import com.alvarogm.valuebay.service.CoinService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/coins")
 @Transactional
 public class CoinController {
 
+
     @Autowired
     CoinService coinService;
 
-    @GetMapping(value = "/get/{id}", produces = "application/json")
-    public ResponseEntity<Coin> getCoin(@PathVariable(name = "id") Integer lotId){
+
+    @GetMapping(value = "/get/{lotId}", produces = "application/json")
+    public ResponseEntity<Coin> getCoin(@PathVariable(name = "lotId") Integer lotId){
 
         Coin result = coinService.findByLotId(lotId);
         if (result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         return ResponseEntity.ok(result);
     }
+
 
     @GetMapping(value = "/get/all", produces = "application/json")
     public ResponseEntity<List<Coin>> getCoins(){
@@ -35,21 +38,57 @@ public class CoinController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping(value = "/insert", produces = "application/json")
-    public ResponseEntity<ResponseStatus> insertCoin(@PathVariable(name = "data") Map<String, String> data){
 
-        return ResponseEntity.ok().build();
+    @PostMapping(value = "/insert", produces = "application/json")
+    public ResponseEntity<ResponseStatus> insertCoin(
+        @RequestParam(value = "lotId") Integer lotId,
+        @RequestParam(value = "itemValue") Integer itemValue,
+        @RequestParam(value = "emissionYear") Integer emissionYear,
+        @RequestParam(value = "conservationStatus") String conservationStatus,
+        @RequestParam(value = "price") Float price,
+        @RequestParam(value = "fkAuction", required = false) Integer fkAuction
+    ){
+
+        try{
+            coinService.insertCoin(coinService.createCoinDTO(lotId, itemValue, emissionYear, conservationStatus, price), fkAuction);
+            System.out.println("[COINS] - Lote: " + lotId + " insertado en el sistema." );
+            return ResponseEntity.ok().build();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @DeleteMapping(value = "/delete/{id}", produces = "application/json")
-    public ResponseEntity<ResponseStatus> deleteCoin(@PathVariable(name = "id") Integer lotId){
+
+    @PostMapping(value = "/mod/{lotId}", produces = "application/json")
+    public ResponseEntity<ResponseStatus> modifyCoin(
+            @PathVariable(name = "lotId") Integer lotId,
+            @RequestParam(value = "itemValue", required = false) Integer itemValue,
+            @RequestParam(value = "emissionYear", required = false) Integer emissionYear,
+            @RequestParam(value = "conservationStatus", required = false) String conservationStatus,
+            @RequestParam(value = "price", required = false) Float price,
+            @RequestParam(value = "fkAuction", required = false) Integer fkAuction
+    ){
+        try{
+            coinService.modifyCoin(lotId, itemValue, emissionYear, conservationStatus, price, fkAuction);
+            System.out.println("[COINS] - Lote: " + lotId + " modificado.");
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @DeleteMapping(value = "/delete/{lotId}", produces = "application/json")
+    public ResponseEntity<ResponseStatus> deleteCoin(@PathVariable(name = "lotId") Integer lotId){
 
         try{
             coinService.deleteByLotId(lotId);
+            System.out.println("[COINS] - Lote: " + lotId + " eliminado del sistema." );
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
 }

@@ -13,7 +13,8 @@ import java.util.List;
 public abstract class BillMapper {
 
     public abstract BillDTO billToBillDTO(Bill bill);
-    public abstract List<BillDTO> billToBillDTOs(List<Bill> Bill);
+    public abstract Bill billDTOToBill(BillDTO billDTO);
+    public abstract List<BillDTO> billsToBillDTOs(List<Bill> Bill);
 
     @AfterMapping
     public void translateConservationStatus(@MappingTarget BillDTO billDTO, Bill bill){

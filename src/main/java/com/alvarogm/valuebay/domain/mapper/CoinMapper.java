@@ -12,8 +12,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public abstract class CoinMapper {
 
-    public abstract CoinDTO coinToCoinDTO(CoinDTO bill);
-    public abstract List<CoinDTO> coinToCoinDTOs(List<Coin> Coin);
+    public abstract CoinDTO coinToCoinDTO(Coin coin);
+    public abstract Coin coinDTOToCoin(CoinDTO coin);
+    public abstract List<CoinDTO> coinsToCoinDTOs(List<Coin> Coin);
 
     @AfterMapping
     public void translateConservationStatus(@MappingTarget CoinDTO coinDTO, Coin bill){

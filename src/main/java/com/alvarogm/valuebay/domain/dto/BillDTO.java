@@ -1,15 +1,11 @@
 package com.alvarogm.valuebay.domain.dto;
 
-import com.alvarogm.valuebay.domain.ConservationStatus;
-import lombok.Data;
-
 import java.util.List;
 
-@Data
 public class BillDTO {
 
     private int lotId;
-    private int value;
+    private int itemValue;
     private int emissionYear;
     private int emissionMonth;
     private int emissionDay;
@@ -19,27 +15,24 @@ public class BillDTO {
     private List<String> picturesURLs;
 
     public BillDTO(){}
-    public BillDTO(int lotId, int value, int emissionYear, int emissionMonth, int emissionDay,
-                   String conservationStatus, String conservationStatusDetailed, float price,
-                   List<String> picturesURLs){
+    public BillDTO(int lotId, int itemValue, int emissionYear, int emissionMonth, int emissionDay,
+                   String conservationStatus,  float price){
 
         this.lotId = lotId;
-        this.value = value;
+        this.itemValue = itemValue;
         this.emissionYear = emissionYear;
         this.emissionMonth = emissionMonth;
         this.emissionDay = emissionDay;
         this.conservationStatus = conservationStatus;
-        this.conservationStatusDetailed = conservationStatusDetailed;
         this.price = price;
-        this.picturesURLs = picturesURLs;
     }
 
     public int getLotId() {
         return lotId;
     }
 
-    public int getValue() {
-        return value;
+    public int getItemValue() {
+        return itemValue;
     }
 
     public int getEmissionYear() {
@@ -75,8 +68,8 @@ public class BillDTO {
         this.lotId = lotId;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setItemValue(int itemValue) {
+        this.itemValue = itemValue;
     }
 
     public void setEmissionYear(int emissionYear) {

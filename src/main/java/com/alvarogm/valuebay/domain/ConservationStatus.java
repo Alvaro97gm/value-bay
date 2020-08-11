@@ -26,4 +26,11 @@ public enum ConservationStatus {
             default     :   return null;
         }
     }
+
+    public static boolean isValidConservationStatus(String rawConservationStatus){
+
+        return "bc".equals(rawConservationStatus.toLowerCase()) || "mbc".equals(rawConservationStatus.toLowerCase()) ||
+                "ebc".equals(rawConservationStatus.toLowerCase()) || "sc".equals(rawConservationStatus.toLowerCase());
+
+    }
 }

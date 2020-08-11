@@ -12,6 +12,7 @@ public class Auction {
     @Id
     private Integer auctionId;
     private Date endTime;
+    private boolean active;
 
     public Auction(){}
     public Auction(Integer auctionId, Date endTime){
@@ -19,19 +20,29 @@ public class Auction {
         this.endTime = endTime;
     }
 
+
     public Integer getAuctionId() {
         return auctionId;
-    }
-
-    public void setAuctionId(Integer auctionId) {
-        this.auctionId = auctionId;
     }
 
     public Date getEndTime() {
         return endTime;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+
+    public void setAuctionId(Integer auctionId) {
+        this.auctionId = auctionId;
+    }
+
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

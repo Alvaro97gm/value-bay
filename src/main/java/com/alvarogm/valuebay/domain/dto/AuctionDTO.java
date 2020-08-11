@@ -1,39 +1,41 @@
 package com.alvarogm.valuebay.domain.dto;
 
-import com.alvarogm.valuebay.domain.model.Auction;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-@Setter
-@Getter
 public class AuctionDTO {
 
     private Integer auctionId;
     private List<Integer> lotIds;
     private Date endTime;
+    private boolean active;
 
     public AuctionDTO(){}
-    public AuctionDTO(Integer auctionId, Date endTime){
+    public AuctionDTO(Integer auctionId, Date endTime, boolean active){
         this.auctionId = auctionId;
         this.endTime = endTime;
+        this.active = active;
+    }
+
+
+    public Integer getAuctionId() {
+        return auctionId;
     }
 
     public Date getEndTime() {
         return endTime;
     }
 
-    public Integer getAuctionId() {
-        return auctionId;
-    }
-
     public List<Integer> getLotIds() {
         return lotIds;
     }
+
+    public boolean isActive(){
+        return active;
+    }
+
 
     public void setAuctionId(Integer auctionId) {
         this.auctionId = auctionId;
@@ -45,5 +47,9 @@ public class AuctionDTO {
 
     public void setLotIds(List<Integer> lotIds) {
         this.lotIds = lotIds;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
     }
 }
