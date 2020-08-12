@@ -27,7 +27,10 @@ public class BillController {
     public ResponseEntity<BillDTO> getBill(@PathVariable(name = "id") Integer lotId){
 
         BillDTO result = billMapper.billToBillDTO(billService.findByLotId(lotId));
-        if (result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (result == null) {
+            System.out.println("[COINS] - No se ha encontrado el lote " + lotId + ".");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -36,7 +39,10 @@ public class BillController {
     public ResponseEntity<List<BillDTO>> getBills(){
 
         List<BillDTO> result = billMapper.billsToBillDTOs(billService.findAll());
-        if (result.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (result.isEmpty()){
+            System.out.println("[BILLS] - No se han encontrado ningún lote.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
         return ResponseEntity.ok(result);
     }
 

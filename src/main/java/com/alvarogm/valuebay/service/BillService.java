@@ -22,21 +22,12 @@ public class BillService {
 
 
     public List<Bill> findAll(){
-
-        List<Bill> bills = billRepository.findAll();
-        if(bills.isEmpty())
-            System.out.println("[BILLS] - No se han encontrado el lotes.");
-        return bills;
+        return billRepository.findAll();
     }
 
 
     public Bill findByLotId(Integer lotId){
-
-        Bill bill = billRepository.findByLotId(lotId);
-        if(bill == null){
-            System.out.println("[BILLS] - No se ha encontrado el lote" + lotId +  ".");
-        }
-        return bill;
+        return billRepository.findByLotId(lotId);
     }
 
 
@@ -97,7 +88,7 @@ public class BillService {
                 billRepository.save(auxBill);
                 System.out.println("[BILLS] - Lote: " + lotId + " encontrado y enlazado a la subasta " + auctionId +  ".");
             }else if (auxBill != null && auxBill.getFkAuction() != null) {
-                    System.out.println("[BILLS] - El lote " + lotId + " ya pertenece a la subasta" + auxBill.getFkAuction() + ".");
+                System.out.println("[BILLS] - El lote " + lotId + " ya pertenece a la subasta" + auxBill.getFkAuction() + ".");
             }
         }
     }

@@ -27,7 +27,10 @@ public class CoinController {
     public ResponseEntity<CoinDTO> getCoin(@PathVariable(name = "lotId") Integer lotId){
 
         CoinDTO result = coinMapper.coinToCoinDTO(coinService.findByLotId(lotId));
-        if (result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (result == null){
+            System.out.println("[COINS] - No se ha encontrado el lote " + lotId + ".");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -36,7 +39,10 @@ public class CoinController {
     public ResponseEntity<List<CoinDTO>> getCoins(){
 
         List<CoinDTO> result = coinMapper.coinsToCoinDTOs(coinService.findAll());
-        if (result.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (result.isEmpty()){
+            System.out.println("[COINS] - No se ha encontrado ningún lote.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
         return ResponseEntity.ok(result);
     }
 

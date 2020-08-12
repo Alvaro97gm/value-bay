@@ -64,3 +64,20 @@ INSERT INTO coins VALUES (0134, 200, 1970, 'EBC', 300.0, 2);
 INSERT INTO coins VALUES (5546, 100, 1961, 'MBC', 220.0, DEFAULT);
 INSERT INTO coins VALUES (0129, 50, 1946, 'BC', 50.0, 2);
 --------------------------------------
+
+-- USERS SECTION ---------------------
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    user_id         INT             PRIMARY KEY,
+    email           VARCHAR(100)    NOT NULL,
+    first_name      VARCHAR(25)     NOT NULL,
+    last_name       VARCHAR(50)     NOT NULL,
+    password        VARCHAR(100)    NOT NULL
+);
+
+INSERT INTO users VALUES (12629, 'Alvaro97gm@gmail.com', 'Alvaro', 'Garcia Merino', '$2b$10$3euPcmQFCiblsZeEu5s7p.9OVHgeHWFDk9nhMqZ0m/3pd/lhwZgES');
+INSERT INTO users VALUES (83221, 'Juancar922@gmail.com', 'Juan Carlos', 'Pérez Acebrón', '$2b$10$3euPcmQFCiblsZeEwrntu5s7p.kSDWFDk9nhMqZ0m/3pd/lhwasgES');
+INSERT INTO users VALUES (91164, 'ochtyruj@gmail.com', 'Jorge', 'Retuerta Merino', '$2b$10$3euPcFe6trblsZeEu5s7p.lSVHgeHWFDk9nhMqZ0m/3pd/lhwZgES');
+INSERT INTO users VALUES (52736, 'slash270897@gmail.com', 'David', 'Ramos Oliva', '$2b$10$3eASDQWsdgB6sZeEu5s7p.lt72heHWFDk9nhMqZ0m/3pd/lhwZgES');
+

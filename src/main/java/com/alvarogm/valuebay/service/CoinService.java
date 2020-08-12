@@ -23,21 +23,12 @@ public class CoinService{
 
 
     public List<Coin> findAll(){
-
-        List<Coin> coins = coinRepository.findAll();
-        if(coins.isEmpty())
-            System.out.println("[COINS] - No se han encontrado el lotes.");
-        return coins;
+        return coinRepository.findAll();
     }
 
 
     public Coin findByLotId(Integer lotId){
-
-        Coin coin = coinRepository.findByLotId(lotId);
-        if(coin == null){
-            System.out.println("[COINS] - No se ha encontrado el lote " + lotId + ".");
-        }
-        return coin;
+        return coinRepository.findByLotId(lotId);
     }
 
 
