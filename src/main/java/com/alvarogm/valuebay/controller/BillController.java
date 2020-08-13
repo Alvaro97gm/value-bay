@@ -29,7 +29,7 @@ public class BillController {
         BillDTO result = billMapper.billToBillDTO(billService.findByLotId(lotId));
         if (result == null) {
             System.out.println("[COINS] - No se ha encontrado el lote " + lotId + ".");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(result);
     }
@@ -41,7 +41,7 @@ public class BillController {
         List<BillDTO> result = billMapper.billsToBillDTOs(billService.findAll());
         if (result.isEmpty()){
             System.out.println("[BILLS] - No se han encontrado ningún lote.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.ok(result);
     }
@@ -68,7 +68,7 @@ public class BillController {
             return ResponseEntity.ok().build();
         } catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
 
     }
@@ -91,7 +91,7 @@ public class BillController {
             return ResponseEntity.ok().build();
         } catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 
@@ -105,7 +105,7 @@ public class BillController {
             return ResponseEntity.ok().build();
         }catch(Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 }

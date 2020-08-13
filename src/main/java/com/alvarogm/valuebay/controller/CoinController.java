@@ -29,7 +29,7 @@ public class CoinController {
         CoinDTO result = coinMapper.coinToCoinDTO(coinService.findByLotId(lotId));
         if (result == null){
             System.out.println("[COINS] - No se ha encontrado el lote " + lotId + ".");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(result);
     }
@@ -41,7 +41,7 @@ public class CoinController {
         List<CoinDTO> result = coinMapper.coinsToCoinDTOs(coinService.findAll());
         if (result.isEmpty()){
             System.out.println("[COINS] - No se ha encontrado ningún lote.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.ok(result);
     }
@@ -63,7 +63,7 @@ public class CoinController {
             return ResponseEntity.ok().build();
         }catch(Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 
@@ -77,13 +77,15 @@ public class CoinController {
             @RequestParam(value = "price", required = false) Float price,
             @RequestParam(value = "fkAuction", required = false) Integer fkAuction
     ){
+
+
         try{
             coinService.modifyCoin(lotId, itemValue, emissionYear, conservationStatus, price, fkAuction);
             System.out.println("[COINS] - Lote: " + lotId + " modificado.");
             return ResponseEntity.ok().build();
         } catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 
@@ -96,7 +98,7 @@ public class CoinController {
             System.out.println("[COINS] - Lote: " + lotId + " eliminado del sistema." );
             return ResponseEntity.ok().build();
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 }

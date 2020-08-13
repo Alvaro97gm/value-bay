@@ -47,6 +47,23 @@ public class UserService {
         }
     }
 
+    // TODO: Sistema de tokens de sesión
+    public User login(String email, String password){
+
+        User loginUser = findByEmail(email);
+
+        if(loginUser != null) {
+            if (passwordEncoder.matches(password, loginUser.getPassword()))
+                return loginUser;
+            else
+                System.out.println("[USERS] - La contraseña es incorrecta.");
+        } else {
+            System.out.println("[USERS] - Email incorrecto. Usuario no encontrado.");
+        }
+
+        return null;
+    }
+
 
     public void deleteUser(Integer userId){
         userRepository.delete(findByUserId(userId));

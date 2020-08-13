@@ -25,7 +25,10 @@ public class AuctionController {
 
         AuctionDTO result = auctionService.findByAuctionId(auctionId);
 
-        if(result == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if(result == null){
+            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -35,7 +38,10 @@ public class AuctionController {
 
         List<AuctionDTO> result = auctionService.findAll();
 
-        if(result.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if(result.isEmpty()){
+            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -53,7 +59,7 @@ public class AuctionController {
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 
@@ -72,7 +78,7 @@ public class AuctionController {
             return ResponseEntity.ok().build();
         } catch(Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 
@@ -81,12 +87,13 @@ public class AuctionController {
     public ResponseEntity<ResponseStatus> deleteAuction(@PathVariable(name = "id") Integer auctionId){
 
         try{
-            auctionService.deleteByAuctionId(auctionId);
+            if(!auctionService.deleteByAuctionId(auctionId))
+                throw new Exception("[AUCTIONS] - La subasta " + auctionId + " no se ha podido eliminar  del sistema.");
             System.out.println("[AUCTIONS] - Subasta: " + auctionId + " eliminada del sistema." );
             return ResponseEntity.ok().build();
         }catch(Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 }

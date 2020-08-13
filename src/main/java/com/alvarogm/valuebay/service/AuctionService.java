@@ -28,45 +28,27 @@ public class AuctionService{
 
 
     public List<AuctionDTO> findAll(){
-
-        List<AuctionDTO> auctionDTOs = auctionMapper.auctionsToAuctionDTOs(auctionRepository.findAll());
-        if(auctionDTOs.isEmpty())
-            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
-        return auctionDTOs;
+        return auctionMapper.auctionsToAuctionDTOs(auctionRepository.findAll());
     }
 
 
     public AuctionDTO findByAuctionId(Integer auctionId){
-
-        AuctionDTO auctionDTO = auctionMapper.auctionToAuctionDTO(auctionRepository.findByAuctionId(auctionId));
-        if(auctionDTO == null)
-            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
-
-        return auctionDTO;
+        return auctionMapper.auctionToAuctionDTO(auctionRepository.findByAuctionId(auctionId));
     }
 
 
-    public void deleteByAuctionId(Integer auctionId){
-
-        try{
-            auctionRepository.deleteByAuctionId(auctionId);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+    public boolean deleteByAuctionId(Integer auctionId){
+        return auctionRepository.deleteByAuctionId(auctionId);
     }
 
 
     public void insertAuction(AuctionDTO auctionDTO){
 
-        try{
-            Auction auction = auctionMapper.auctionDTOToAuction(auctionDTO);
-            auctionRepository.save(auction);
+        Auction auction = auctionMapper.auctionDTOToAuction(auctionDTO);
+        auctionRepository.save(auction);
 
-            billService.findLotAndSetFkAuction(auctionDTO.getAuctionId(), auctionDTO.getLotIds());
-            coinService.findLotAndSetFkAuction(auctionDTO.getAuctionId(), auctionDTO.getLotIds());
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        billService.findLotAndSetFkAuction(auctionDTO.getAuctionId(), auctionDTO.getLotIds());
+        coinService.findLotAndSetFkAuction(auctionDTO.getAuctionId(), auctionDTO.getLotIds());
     }
 
 
@@ -86,11 +68,7 @@ public class AuctionService{
             }
             if(active != null) auction.setActive(active);
 
-            try{
-                auctionRepository.save(auction);
-            } catch(Exception e){
-                System.out.println(e.getMessage());
-            }
+            auctionRepository.save(auction);
         }
     }
 

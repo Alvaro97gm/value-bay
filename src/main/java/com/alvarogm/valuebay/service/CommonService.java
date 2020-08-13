@@ -8,11 +8,9 @@ import java.util.Random;
 public class CommonService {
 
     /**
-     *
      * @return a random integer between 0 - 99999
      */
     public static Integer generate5DigitsId(){
-        Random rand = new Random(System.currentTimeMillis());
-        return rand.nextInt(99999);
+        return new Random(System.currentTimeMillis()).nextInt(99999);
     }
 }

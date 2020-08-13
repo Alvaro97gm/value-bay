@@ -2,6 +2,7 @@ package com.alvarogm.valuebay.controller;
 
 import com.alvarogm.valuebay.domain.dto.UserDTO;
 import com.alvarogm.valuebay.domain.mapper.UserMapper;
+import com.alvarogm.valuebay.domain.model.User;
 import com.alvarogm.valuebay.service.CommonService;
 import com.alvarogm.valuebay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserController {
         UserDTO result = userMapper.userToUserDTO(userService.findByUserId(userId));
         if(result == null) {
             System.out.println("[USERS] - No se ha encontrado al usuario " + userId + ".");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(result);
     }
@@ -42,7 +43,7 @@ public class UserController {
         UserDTO result = userMapper.userToUserDTO(userService.findByEmail(email));
         if(result == null){
             System.out.println("[USERS] - No se ha encontrado al usuario "+ email +".");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         return ResponseEntity.ok(result);
@@ -55,7 +56,7 @@ public class UserController {
         List<UserDTO> result =  userMapper.usersToUserDTOs(userService.findAll());
         if(result.isEmpty()){
             System.out.println("[USERS] - No se ha encontrado ningún usuario.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
         return ResponseEntity.ok(result);
@@ -72,16 +73,32 @@ public class UserController {
 
         Integer newUserId = CommonService.generate5DigitsId();
         try{
-            userService.registerNewUser(
-                new UserDTO(newUserId, email, firstName, lastName, password)
-            );
+            userService.registerNewUser(new UserDTO(newUserId, email, firstName, lastName, password));
             System.out.println("[USERS] - Usuario: " + newUserId + " registrado en el sistema.");
             return ResponseEntity.ok().build();
-        }catch(Exception e){
+        }catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
+
+
+    @GetMapping("/login")
+    public ResponseEntity<UserDTO> login(
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "password") String password
+    ){
+
+        try{
+            User user = userService.login(email, password);
+            if(user != null)
+                return ResponseEntity.ok(userMapper.userToUserDTO(user));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<ResponseStatus> deleteUser(@PathVariable(name = "userId") Integer userId){
@@ -91,7 +108,7 @@ public class UserController {
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 }
