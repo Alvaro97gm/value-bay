@@ -36,12 +36,15 @@ public class UserService {
 
     public void registerNewUser(UserDTO userDTO){
 
+        userDTO.setUserId(CommonService.generate5DigitsId());
+
         if(isEmailAvailable(userDTO.getEmail())){
             User user = new User(
                     userDTO.getUserId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail()
             );
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userRepository.save(user);
+            System.out.println("[USERS] - Usuario: " + userDTO.getUserId() + " registrado en el sistema.");
         }else{
             System.out.println("[USERS] - El email: " + userDTO.getEmail() + " ya está en uso.");
         }

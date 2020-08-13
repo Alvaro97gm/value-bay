@@ -66,6 +66,7 @@ public class BillService {
 
             try{
                 billRepository.save(bill);
+                System.out.println("[BILLS] - Lote: " + lotId + " insertado en el sistema." );
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }
@@ -114,8 +115,8 @@ public class BillService {
     }
 
 
-    public BillDTO createBillDTO(Integer lotId, Integer itemValue, Integer emissionYear, Integer emissionMonth,
+    public BillDTO createBillDTO(Integer itemValue, Integer emissionYear, Integer emissionMonth,
                                  Integer emissionDay, String conservationStatus, float price){
-        return new BillDTO(lotId, itemValue, emissionYear, emissionMonth, emissionDay, conservationStatus, price);
+        return new BillDTO(CommonService.generate5DigitsId(), itemValue, emissionYear, emissionMonth, emissionDay, conservationStatus, price);
     }
 }

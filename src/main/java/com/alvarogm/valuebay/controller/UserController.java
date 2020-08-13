@@ -71,10 +71,8 @@ public class UserController {
         @RequestParam(name = "password") String password
     ){
 
-        Integer newUserId = CommonService.generate5DigitsId();
         try{
-            userService.registerNewUser(new UserDTO(newUserId, email, firstName, lastName, password));
-            System.out.println("[USERS] - Usuario: " + newUserId + " registrado en el sistema.");
+            userService.registerNewUser(new UserDTO(null, email, firstName, lastName, password));
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());

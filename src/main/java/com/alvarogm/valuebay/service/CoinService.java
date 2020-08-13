@@ -39,6 +39,7 @@ public class CoinService{
             if(fkAuction != null)
                 coin.setFkAuction(fkAuction);
             coinRepository.save(coin);
+            System.out.println("[COINS] - Lote: " + coin.getLotId() + " insertado en el sistema." );
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -111,8 +112,7 @@ public class CoinService{
     }
 
 
-    public CoinDTO createCoinDTO(Integer lotId, Integer itemValue, Integer emissionYear,
-                                 String conservationStatus, float price){
-        return new CoinDTO(lotId, itemValue, emissionYear, conservationStatus, price);
+    public CoinDTO createCoinDTO(Integer itemValue, Integer emissionYear, String conservationStatus, float price){
+        return new CoinDTO(CommonService.generate5DigitsId(), itemValue, emissionYear, conservationStatus, price);
     }
 }

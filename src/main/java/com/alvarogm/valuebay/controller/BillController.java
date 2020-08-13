@@ -49,7 +49,6 @@ public class BillController {
 
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> insertBill(
-            @RequestParam(value = "lotId") Integer lotId,
             @RequestParam(value = "itemValue") Integer itemValue,
             @RequestParam(value = "emissionYear") Integer emissionYear,
             @RequestParam(value = "emissionMonth") Integer emissionMonth,
@@ -61,10 +60,9 @@ public class BillController {
 
         try{
             billService.insert(
-                billService.createBillDTO(lotId, itemValue, emissionYear, emissionMonth, emissionDay, conservationStatus, price),
+                billService.createBillDTO(itemValue, emissionYear, emissionMonth, emissionDay, conservationStatus, price),
                 fkAuction
             );
-            System.out.println("[BILLS] - Lote: " + lotId + " insertado en el sistema." );
             return ResponseEntity.ok().build();
         } catch (Exception e){
             System.out.println(e.getMessage());

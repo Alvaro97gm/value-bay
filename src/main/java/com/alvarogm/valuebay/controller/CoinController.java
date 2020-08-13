@@ -49,7 +49,6 @@ public class CoinController {
 
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> insertCoin(
-        @RequestParam(value = "lotId") Integer lotId,
         @RequestParam(value = "itemValue") Integer itemValue,
         @RequestParam(value = "emissionYear") Integer emissionYear,
         @RequestParam(value = "conservationStatus") String conservationStatus,
@@ -58,8 +57,7 @@ public class CoinController {
     ){
 
         try{
-            coinService.insertCoin(coinService.createCoinDTO(lotId, itemValue, emissionYear, conservationStatus, price), fkAuction);
-            System.out.println("[COINS] - Lote: " + lotId + " insertado en el sistema." );
+            coinService.insertCoin(coinService.createCoinDTO(itemValue, emissionYear, conservationStatus, price), fkAuction);
             return ResponseEntity.ok().build();
         }catch(Exception e){
             System.out.println(e.getMessage());
