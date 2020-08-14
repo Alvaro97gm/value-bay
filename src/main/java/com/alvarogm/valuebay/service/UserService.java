@@ -2,7 +2,7 @@ package com.alvarogm.valuebay.service;
 
 import com.alvarogm.valuebay.domain.dto.UserDTO;
 import com.alvarogm.valuebay.domain.model.User;
-import com.alvarogm.valuebay.domain.repository.UserRepository;
+import com.alvarogm.valuebay.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,20 +50,18 @@ public class UserService {
         }
     }
 
-    // TODO: Sistema de tokens de sesión
-    public User login(String email, String password){
+
+    public String login(String email, String password){
 
         User loginUser = findByEmail(email);
-
         if(loginUser != null) {
             if (passwordEncoder.matches(password, loginUser.getPassword()))
-                return loginUser;
+                return null; //TokenManager.generateToken(loginUser.getUserId());
             else
                 System.out.println("[USERS] - La contraseña es incorrecta.");
         } else {
             System.out.println("[USERS] - Email incorrecto. Usuario no encontrado.");
         }
-
         return null;
     }
 

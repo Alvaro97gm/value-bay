@@ -2,8 +2,6 @@ package com.alvarogm.valuebay.controller;
 
 import com.alvarogm.valuebay.domain.dto.UserDTO;
 import com.alvarogm.valuebay.domain.mapper.UserMapper;
-import com.alvarogm.valuebay.domain.model.User;
-import com.alvarogm.valuebay.service.CommonService;
 import com.alvarogm.valuebay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -82,15 +80,15 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public ResponseEntity<UserDTO> login(
+    public ResponseEntity<String> login(
             @RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password
     ){
 
         try{
-            User user = userService.login(email, password);
-            if(user != null)
-                return ResponseEntity.ok(userMapper.userToUserDTO(user));
+            String token = userService.login(email, password);
+            if(!token.isEmpty())
+                return ResponseEntity.ok(token);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

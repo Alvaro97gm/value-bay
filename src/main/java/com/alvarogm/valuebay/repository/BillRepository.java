@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.domain.repository;
+package com.alvarogm.valuebay.repository;
 
 import com.alvarogm.valuebay.domain.model.Bill;
 import org.springframework.data.jpa.repository.JpaRepository;

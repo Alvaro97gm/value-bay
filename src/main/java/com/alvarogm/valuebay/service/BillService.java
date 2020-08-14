@@ -4,7 +4,7 @@ import com.alvarogm.valuebay.domain.ConservationStatus;
 import com.alvarogm.valuebay.domain.dto.BillDTO;
 import com.alvarogm.valuebay.domain.mapper.BillMapper;
 import com.alvarogm.valuebay.domain.model.Bill;
-import com.alvarogm.valuebay.domain.repository.BillRepository;
+import com.alvarogm.valuebay.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

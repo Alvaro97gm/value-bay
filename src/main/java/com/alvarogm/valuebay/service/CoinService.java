@@ -4,7 +4,7 @@ import com.alvarogm.valuebay.domain.ConservationStatus;
 import com.alvarogm.valuebay.domain.dto.CoinDTO;
 import com.alvarogm.valuebay.domain.mapper.CoinMapper;
 import com.alvarogm.valuebay.domain.model.Coin;
-import com.alvarogm.valuebay.domain.repository.CoinRepository;
+import com.alvarogm.valuebay.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
