@@ -8,6 +8,8 @@ import "bootstrap-vue/dist/bootstrap-vue.min.css";
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
+// TODO: Añadir mixin de axios
+
 new Vue({
   BootstrapVue,
   IconsPlugin,
