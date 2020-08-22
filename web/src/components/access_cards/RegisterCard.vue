@@ -10,6 +10,7 @@
         </b-input-group-prepend>
         <b-form-input
           id="input-name"
+          v-model="userName"
           type="text"
           placeholder="Nombre"
           v-b-tooltip.hover.left title="Por favor, introduce tu nombre."
@@ -17,7 +18,8 @@
         </b-form-input>
 
         <b-form-input
-          id="input-surname"
+          id="input-lastname"
+          v-model="userLastname"
           type="text"
           placeholder="Apellidos"
           v-b-tooltip.hover.left title="Por favor, introduce tus apellidos."
@@ -30,7 +32,8 @@
           <b-icon icon="envelope-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-email"
+          id="input-register-email"
+          v-model="userEmail"
           type="email"
           placeholder="Ejemplo@mail.com"
           v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
@@ -43,7 +46,8 @@
           <b-icon icon="lock-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-password"
+          id="input-register-password"
+          v-model="userPassword"
           :type="inputPasswordType"
           placeholder="Contraseña"
           v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
@@ -51,6 +55,7 @@
         </b-form-input>
         <b-form-input
           id="input-repeat-password"
+          v-model="repeatPassword"
           :type="inputPasswordType"
           placeholder="Repetir contraseña"
           v-b-tooltip.hover.left title="Por favor, repite tu contraseña."
@@ -65,22 +70,56 @@
         </b-input-group-prepend>
       </b-input-group>            
     </b-form>
-    <b-button id="register-button" type="submit" variant="success">Enviar</b-button>
+    <b-button id="register-button" variant="success" @click="register()">Enviar</b-button>
     <p id="access-text">¿Ya tienes cuenta? <a href="#">Accede</a></p>         
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import config from '../../config';
+
 export default {
   name: "RegisterCard",
   data: function() {
     return {
       isPasswordHidden: true,
-      inputPasswordType: 'password'
+      inputPasswordType: 'password',
+      userName: "",
+      userLastname: "",
+      userEmail: "",
+      userPassword: "",
+      repeatPassword: ""
     }
   },
+
   // TODO: Gestionar POST Request a /localhost:8080/users/register
   methods: {
+    register: function(){
+      axios.post(config.serverURL + config.APIEndpoints.Users.register + this.createPathVariables())
+        .then(resp => {
+          console.log(resp.status + ' - ' + resp.statusText);
+        })
+    },
+
+    isValidInfo: function(){
+      return (
+        this.userName != null           &&
+        this.userLastname != null       &&
+        this.userEmail != null          &&
+        (this.userPassword != null && this.userPassword === this.repeatPassword)
+      )   
+    },
+
+    createPathVariables: function(){
+      if(this.isValidInfo()){
+        return(
+          "?email=" + this.userEmail + "&firstName=" + this.userName +
+          "&lastName=" + this.userLastname + "&password=" + this.userPassword
+        )
+      }
+    },
+
     tooglePasswordVisibility: function(){
       this.$data.inputPasswordType = this.$data.inputPasswordType === "password" ? "text" : "password";
       this.$data.isPasswordHidden = !this.$data.isPasswordHidden;

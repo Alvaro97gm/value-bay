@@ -8,7 +8,7 @@
           <b-icon icon="envelope-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-email"
+          id="input-login-email"
           type="email"
           placeholder="Ejemplo@mail.com"
           v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
@@ -20,7 +20,7 @@
           <b-icon icon="lock-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-password"
+          id="input-login-password"
           :type="inputPasswordType"
           placeholder="Contraseña"
           v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
@@ -35,7 +35,7 @@
         </b-input-group-prepend>
       </b-input-group>            
     </b-form>
-    <b-button id="access-button" type="submit" variant="success">Acceder</b-button>
+    <b-button id="access-button" variant="success" @click="get()">Acceder</b-button>
     <p id="register-text">¿No tienes cuenta? <a href="#">Regístrate</a></p>         
   </div>
 </template>

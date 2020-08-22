@@ -6,9 +6,10 @@
     </div>
     <div id="middle-side">
       <b-button id="register-nav-button" variant="success" @click="showRegister()">Registro</b-button>
-      <b-button id="login-nav-button" variant="success" @click="showLogin()">Acceso</b-button>
+      <InfoCard id="info-card"/>      
+      <b-button id="login-nav-button" variant="success" @click="showLogin()">Acceso</b-button>      
     </div>
-    <div id="right-side">
+    <div id="right-side" class="hidden">
       <img id="logo" src="../../public/logo.png" alt="Logo">
       <RegisterCard id="register-card"/>
     </div>
@@ -16,14 +17,16 @@
 </template>
 
 <script>
-import LoginCard from '../components/LoginCard';
-import RegisterCard from '../components/RegisterCard';
+import LoginCard from '../components/access_cards/LoginCard';
+import RegisterCard from '../components/access_cards/RegisterCard';
+import InfoCard from '../components/access_cards/InfoCard';
 
 export default {
   name: "Access",
   components: {
     LoginCard,
-    RegisterCard
+    RegisterCard,
+    InfoCard
   },
   methods: {
     showRegister: function(){
@@ -36,7 +39,7 @@ export default {
       document.getElementById("right-side").style.display = "none";
       document.getElementById("left-side").style.display = "flex";
       document.getElementById("login-nav-button").style.display = "none";
-      document.getElementById("register-nav-button").style.display = "inherit";
+      document.getElementById("register-nav-button").style.display = "inherit";      
     }
   }
 }
@@ -49,6 +52,8 @@ export default {
   width: 100%;
 }
 
+/* LEFT_SIDE */
+
 #left-side {
   width: 65%;
   height: 100vh;
@@ -59,7 +64,7 @@ export default {
 }
 
 #logo {
-  margin-top: 3em;
+  margin-top: 1.5em;
   align-self: center;
   max-width: 200px;
   max-height: 200px;
@@ -77,7 +82,11 @@ export default {
   box-shadow: -5px 5px 35px black;
 }
 
+/* MIDDLE_SIDE */
+
 #middle-side {
+  display: flex;
+  justify-content: center;
   width: 35%;
   height: 100vh;
   background-image: url('../../public/login-background.jpg');
@@ -85,19 +94,10 @@ export default {
   background-size: cover;
 }
 
-#register-nav-button {
-  position: fixed;
-  width: 10%;
-  top: 3vh;
-  left: 52%;
-  transition: all 200ms ease-in;
-  transform: scale(1);
-  box-shadow: -2px 5px 35px black;  
-}
-
 #login-nav-button {
   display: none;
   position: fixed;
+  justify-content: center;
   width: 10%;
   top: 3vh;
   right: 52%;
@@ -106,11 +106,33 @@ export default {
   box-shadow: 2px 5px 35px black;  
 }
 
+.icon-composer {
+  position: sticky;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#register-nav-button {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  width: 10%;
+  top: 3vh;
+  left: 52%;
+  transition: all 200ms ease-in;
+  transform: scale(1);
+  box-shadow: -2px 5px 35px black;  
+}
+
 #register-nav-button:hover, #login-nav-button:hover {
   transition: all 200ms ease-in;
   transform: scale(1.1);
   cursor: pointer;
 }
+
+/* RIGHT_SIDE */
 
 #right-side {
   display: none;

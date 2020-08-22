@@ -56,7 +56,7 @@ public class UserService {
         User loginUser = findByEmail(email);
         if(loginUser != null) {
             if (passwordEncoder.matches(password, loginUser.getPassword()))
-                return null; //TokenManager.generateToken(loginUser.getUserId());
+                return null; //AuthTokenFilter.generateToken(loginUser.getUserId());
             else
                 System.out.println("[USERS] - La contraseña es incorrecta.");
         } else {
