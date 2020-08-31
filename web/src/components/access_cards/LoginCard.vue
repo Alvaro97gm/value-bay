@@ -44,7 +44,10 @@
 
 <script>
 import axios from 'axios';
-import config from '../../config';
+import EventBus from '../../util/eventBus';
+import config from '../../util/config';
+import configAlert from '../../util/configAlert';
+
 
 export default {
   name: 'LoginCard',
@@ -56,26 +59,47 @@ export default {
       userPassword: ''
     }
   },
-
   methods: {
     login: function(){
+      var reqParams = this.createPathVariables()
+      if(reqParams === null){
+        this.$root.customAlert(configAlert.FORM_NOT_COMPLETE)
+        return
+      }
+      // ===== LOG-IN REQUEST =====
       axios({
         method: 'post',
         url: config.serverURL + config.APIEndpoints.Security.login,
-        params: this.createPathVariables()
-      }).then(res => {console.log(res.headers)})
+        params: reqParams
+      }).then(res => {
+        if(res.status == 200)
+          // Login succeed
+          this.$root.customAlert(configAlert.ACCESS_GRANTED)
+          EventBus.$emit('STORE_TOKEN', res.headers.authorization)
+      }).catch(err => {
+        if(err.response){
+          // Request send, error's present in response.
+          this.$root.customAlert(configAlert.ACCESS_DENIED)
+        }else{
+          // Error during request.
+          this.$root.customAlert(configAlert.GENERIC_ERROR)
+          console.log(err)
+        }
+      })
     },
+
     isValidInfo: function(){
-      return this.userEmail != null && this.userPassword != null         
+      return this.userEmail != "" && this.userPassword != ""         
     },
 
     createPathVariables: function(){
       if(this.isValidInfo())
         return { email: this.userEmail, password: this.userPassword }
+      return null
     },
     tooglePasswordVisibility: function(){
-      this.$data.inputPasswordType = this.$data.inputPasswordType === 'password' ? 'text' : 'password';
-      this.$data.isPasswordHidden = !this.$data.isPasswordHidden;
+      this.$data.inputPasswordType = this.$data.inputPasswordType === 'password' ? 'text' : 'password'
+      this.$data.isPasswordHidden = !this.$data.isPasswordHidden
     }
   }
 }

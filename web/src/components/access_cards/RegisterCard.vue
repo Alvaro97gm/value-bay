@@ -77,7 +77,9 @@
 
 <script>
 import axios from 'axios';
-import config from '../../config';
+import EventBus from '../../util/eventBus';
+import config from '../../util/config';
+import configAlert from '../../util/configAlert';
 
 export default {
   name: "RegisterCard",
@@ -96,29 +98,81 @@ export default {
   // TODO: Gestionar respuesta en función del status
   methods: {
     register: function(){
-      axios.post(config.serverURL + config.APIEndpoints.Security.register + this.createPathVariables())
-        .then(res => {
-          console.log(res.status + ' - ' + res.statusText);
-        })
+      var currentContext = this;
+      var reqParams = this.createPathVariables();
+      if(reqParams === null){
+        this.$root.customAlert(configAlert.FORM_NOT_COMPLETE)
+        return
+      }else if (reqParams.error != null){
+        this.$root.customAlert(configAlert.NOT_MATCHING_PASS)
+        return
+      }
+      // ===== SIGN-IN REQUEST =====
+      axios({
+        method: 'post',
+        url: config.serverURL + config.APIEndpoints.Security.register,
+        params: reqParams
+      }).then(res => {
+        if(res.status === 200)
+          // Signin succed
+          currentContext.getTokenByLogin(reqParams.email, reqParams.password);
+      }).catch(err => {
+        if(err.response){
+          // Request send, error's present in response.
+          if(err.status === 301)
+            this.$root.customAlert(configAlert.ACCESS_DENIED)
+          else
+            this.$root.customAlert(configAlert.EMAIL_IN_USE)
+        }else{
+          // Error during request.
+          this.$root.customAlert(configAlert.GENERIC_ERROR)
+          console.log(err)
+        }
+      })
+    },
+
+    getTokenByLogin: function(userEmail, userPassword){
+      // ===== LOG-IN REQUEST =====
+      axios({
+        method: 'post',
+        url: config.serverURL + config.APIEndpoints.Security.login,
+        params: {email: userEmail, password: userPassword}
+      }).then(res => {
+        if(res.status == 200)
+          // Login succeed
+          this.$root.customAlert(configAlert.ACCESS_GRANTED)
+          EventBus.$emit('STORE_TOKEN', res.headers.authorization)
+      }).catch(err => {
+        // Error during request.
+        this.$root.customAlert(configAlert.GENERIC_ERROR)
+        console.log(err)
+      })
     },
 
     // TODO: Añadir verificación de correo electrónico
     isValidInfo: function(){
       return (
-        this.userName != null           &&
-        this.userLastname != null       &&
-        this.userEmail != null          &&
-        (this.userPassword != null && this.userPassword === this.repeatPassword)
+        this.userName != ""           &&
+        this.userLastname != ""       &&
+        this.userEmail != ""          &&
+        this.userPassword != ""
       )   
     },
 
     createPathVariables: function(){
       if(this.isValidInfo()){
-        return(
-          "?email=" + this.userEmail + "&firstName=" + this.userName +
-          "&lastName=" + this.userLastname + "&password=" + this.userPassword
-        )
+        if(this.userPassword === this.repeatPassword){
+          return {
+            email: this.userEmail,
+            firstName: this.userName,
+            lastName: this.userLastname,
+            password: this.userPassword
+          }
+        }else{
+          return {error: 'NOT_MATCHING_PASS'}
+        }
       }
+      return null;
     },
 
     tooglePasswordVisibility: function(){
