@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.domain.model;
+package com.alvarogm.valuebay.persistence.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,14 +14,16 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
+    private String role;
 
 
     public User(){}
-    public User(Integer userId, String firstName, String lastName, String email){
+    public User(Integer userId, String firstName, String lastName, String email, String role){
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
     }
 
     public Integer getUserId() {
@@ -42,6 +44,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public void setUserId(Integer userId) {

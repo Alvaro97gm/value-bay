@@ -1,11 +1,12 @@
 package com.alvarogm.valuebay.controller;
 
-import com.alvarogm.valuebay.domain.dto.CoinDTO;
-import com.alvarogm.valuebay.domain.mapper.CoinMapper;
+import com.alvarogm.valuebay.persistence.domain.dto.CoinDTO;
+import com.alvarogm.valuebay.persistence.domain.mapper.CoinMapper;
 import com.alvarogm.valuebay.service.CoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,7 @@ public class CoinController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> insertCoin(
         @RequestParam(value = "itemValue") Integer itemValue,
@@ -65,7 +66,7 @@ public class CoinController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/mod/{lotId}", produces = "application/json")
     public ResponseEntity<ResponseStatus> modifyCoin(
             @PathVariable(name = "lotId") Integer lotId,
@@ -87,7 +88,7 @@ public class CoinController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{lotId}", produces = "application/json")
     public ResponseEntity<ResponseStatus> deleteCoin(@PathVariable(name = "lotId") Integer lotId){
 

@@ -1,10 +1,11 @@
 package com.alvarogm.valuebay.controller;
 
 import com.alvarogm.valuebay.service.AuctionService;
-import com.alvarogm.valuebay.domain.dto.AuctionDTO;
+import com.alvarogm.valuebay.persistence.domain.dto.AuctionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,7 @@ public class AuctionController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> createAuction(
             @RequestParam(value = "auctionId") Integer auctionId,
@@ -63,7 +64,7 @@ public class AuctionController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/mod/{auctionId}", produces = "application/json")
     public ResponseEntity<ResponseStatus> modifyAuction(
         @PathVariable(name = "auctionId") Integer auctionId,
@@ -82,7 +83,7 @@ public class AuctionController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{id}", produces = "application/json")
     public ResponseEntity<ResponseStatus> deleteAuction(@PathVariable(name = "id") Integer auctionId){
 

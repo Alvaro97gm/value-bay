@@ -1,6 +1,6 @@
-package com.alvarogm.valuebay.repository;
+package com.alvarogm.valuebay.persistence.repository;
 
-import com.alvarogm.valuebay.domain.model.Bill;
+import com.alvarogm.valuebay.persistence.domain.model.Bill;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

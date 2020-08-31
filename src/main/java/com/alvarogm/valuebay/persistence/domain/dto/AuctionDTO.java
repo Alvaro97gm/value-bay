@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.domain.dto;
+package com.alvarogm.valuebay.persistence.domain.dto;
 
 import java.util.Date;
 import java.util.List;

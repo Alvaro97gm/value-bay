@@ -1,8 +1,9 @@
 package com.alvarogm.valuebay.service;
 
-import com.alvarogm.valuebay.domain.dto.UserDTO;
-import com.alvarogm.valuebay.domain.model.User;
-import com.alvarogm.valuebay.repository.UserRepository;
+import com.alvarogm.valuebay.persistence.domain.dto.UserDTO;
+import com.alvarogm.valuebay.persistence.domain.model.User;
+import com.alvarogm.valuebay.persistence.repository.UserRepository;
+import com.alvarogm.valuebay.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,13 +35,14 @@ public class UserService {
     }
 
 
-    public void registerNewUser(UserDTO userDTO){
+    public void signIn(UserDTO userDTO){
 
         userDTO.setUserId(CommonService.generate5DigitsId());
 
         if(isEmailAvailable(userDTO.getEmail())){
             User user = new User(
-                    userDTO.getUserId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail()
+                userDTO.getUserId(), userDTO.getFirstName(),
+                userDTO.getLastName(), userDTO.getEmail(), UserRole.USER.name()
             );
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userRepository.save(user);
@@ -48,21 +50,6 @@ public class UserService {
         }else{
             System.out.println("[USERS] - El email: " + userDTO.getEmail() + " ya está en uso.");
         }
-    }
-
-
-    public String login(String email, String password){
-
-        User loginUser = findByEmail(email);
-        if(loginUser != null) {
-            if (passwordEncoder.matches(password, loginUser.getPassword()))
-                return null; //AuthTokenFilter.generateToken(loginUser.getUserId());
-            else
-                System.out.println("[USERS] - La contraseña es incorrecta.");
-        } else {
-            System.out.println("[USERS] - Email incorrecto. Usuario no encontrado.");
-        }
-        return null;
     }
 
 

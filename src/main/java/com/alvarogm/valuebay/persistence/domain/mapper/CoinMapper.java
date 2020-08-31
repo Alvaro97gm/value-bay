@@ -1,8 +1,8 @@
-package com.alvarogm.valuebay.domain.mapper;
+package com.alvarogm.valuebay.persistence.domain.mapper;
 
-import com.alvarogm.valuebay.domain.ConservationStatus;
-import com.alvarogm.valuebay.domain.dto.CoinDTO;
-import com.alvarogm.valuebay.domain.model.Coin;
+import com.alvarogm.valuebay.persistence.domain.ConservationStatus;
+import com.alvarogm.valuebay.persistence.domain.dto.CoinDTO;
+import com.alvarogm.valuebay.persistence.domain.model.Coin;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

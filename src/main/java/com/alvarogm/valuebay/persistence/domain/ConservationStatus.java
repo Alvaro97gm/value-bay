@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.domain;
+package com.alvarogm.valuebay.persistence.domain;
 
 public enum ConservationStatus {
     BC("Buena conservación"),

@@ -1,25 +1,27 @@
-package com.alvarogm.valuebay.domain.dto;
+package com.alvarogm.valuebay.persistence.domain.model;
 
-import java.util.List;
+import javax.persistence.*;
 
-public class CoinDTO {
+@Entity
+@Table(name = "coins")
+public class Coin {
 
+    @Id
     private Integer lotId;
     private Integer itemValue;
     private Integer emissionYear;
     private String conservationStatus;
-    private String conservationStatusDetailed;
     private float price;
-    private List<String> picturesURLs;
+    private Integer fkAuction;
 
-    public CoinDTO(){}
-    public CoinDTO(Integer lotId, Integer itemValue, Integer emissionYear,
-                   String conservationStatus, float price){
+    public Coin(){}
+    public Coin(Integer lotId, Integer itemValue, Integer emissionYear, String conservationStatus, float price, Integer fkAuction){
         this.lotId = lotId;
         this.itemValue = itemValue;
         this.emissionYear = emissionYear;
         this.conservationStatus = conservationStatus;
         this.price = price;
+        this.fkAuction = fkAuction;
     }
 
     public Integer getLotId() {
@@ -38,16 +40,12 @@ public class CoinDTO {
         return conservationStatus;
     }
 
-    public String getConservationStatusDetailed() {
-        return conservationStatusDetailed;
-    }
-
     public float getPrice() {
         return price;
     }
 
-    public List<String> getPicturesURLs() {
-        return picturesURLs;
+    public Integer getFkAuction() {
+        return fkAuction;
     }
 
     public void setLotId(Integer lotId) {
@@ -66,15 +64,11 @@ public class CoinDTO {
         this.conservationStatus = conservationStatus;
     }
 
-    public void setConservationStatusDetailed(String conservationStatusDetailed) {
-        this.conservationStatusDetailed = conservationStatusDetailed;
-    }
-
     public void setPrice(float price) {
         this.price = price;
     }
 
-    public void setPicturesURLs(List<String> picturesURLs) {
-        this.picturesURLs = picturesURLs;
+    public void setFkAuction(Integer fkAuction) {
+        this.fkAuction = fkAuction;
     }
 }

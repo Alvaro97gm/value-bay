@@ -1,50 +1,37 @@
-package com.alvarogm.valuebay.domain.dto;
+package com.alvarogm.valuebay.persistence.domain.dto;
 
 import java.util.List;
 
-public class BillDTO {
+public class CoinDTO {
 
-    private int lotId;
-    private int itemValue;
-    private int emissionYear;
-    private int emissionMonth;
-    private int emissionDay;
+    private Integer lotId;
+    private Integer itemValue;
+    private Integer emissionYear;
     private String conservationStatus;
     private String conservationStatusDetailed;
     private float price;
     private List<String> picturesURLs;
 
-    public BillDTO(){}
-    public BillDTO(int lotId, int itemValue, int emissionYear, int emissionMonth, int emissionDay,
-                   String conservationStatus,  float price){
-
+    public CoinDTO(){}
+    public CoinDTO(Integer lotId, Integer itemValue, Integer emissionYear,
+                   String conservationStatus, float price){
         this.lotId = lotId;
         this.itemValue = itemValue;
         this.emissionYear = emissionYear;
-        this.emissionMonth = emissionMonth;
-        this.emissionDay = emissionDay;
         this.conservationStatus = conservationStatus;
         this.price = price;
     }
 
-    public int getLotId() {
+    public Integer getLotId() {
         return lotId;
     }
 
-    public int getItemValue() {
+    public Integer getItemValue() {
         return itemValue;
     }
 
-    public int getEmissionYear() {
+    public Integer getEmissionYear() {
         return emissionYear;
-    }
-
-    public int getEmissionMonth() {
-        return emissionMonth;
-    }
-
-    public int getEmissionDay() {
-        return emissionDay;
     }
 
     public String getConservationStatus() {
@@ -63,25 +50,16 @@ public class BillDTO {
         return picturesURLs;
     }
 
-
-    public void setLotId(int lotId) {
+    public void setLotId(Integer lotId) {
         this.lotId = lotId;
     }
 
-    public void setItemValue(int itemValue) {
+    public void setItemValue(Integer itemValue) {
         this.itemValue = itemValue;
     }
 
-    public void setEmissionYear(int emissionYear) {
+    public void setEmissionYear(Integer emissionYear) {
         this.emissionYear = emissionYear;
-    }
-
-    public void setEmissionMonth(int emissionMonth) {
-        this.emissionMonth = emissionMonth;
-    }
-
-    public void setEmissionDay(int emissionDay) {
-        this.emissionDay = emissionDay;
     }
 
     public void setConservationStatus(String conservationStatus) {

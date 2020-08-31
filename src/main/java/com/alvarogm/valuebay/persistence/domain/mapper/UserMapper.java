@@ -1,7 +1,7 @@
-package com.alvarogm.valuebay.domain.mapper;
+package com.alvarogm.valuebay.persistence.domain.mapper;
 
-import com.alvarogm.valuebay.domain.dto.UserDTO;
-import com.alvarogm.valuebay.domain.model.User;
+import com.alvarogm.valuebay.persistence.domain.dto.UserDTO;
+import com.alvarogm.valuebay.persistence.domain.model.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;

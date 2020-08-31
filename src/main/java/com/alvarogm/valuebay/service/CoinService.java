@@ -1,10 +1,10 @@
 package com.alvarogm.valuebay.service;
 
-import com.alvarogm.valuebay.domain.ConservationStatus;
-import com.alvarogm.valuebay.domain.dto.CoinDTO;
-import com.alvarogm.valuebay.domain.mapper.CoinMapper;
-import com.alvarogm.valuebay.domain.model.Coin;
-import com.alvarogm.valuebay.repository.CoinRepository;
+import com.alvarogm.valuebay.persistence.domain.ConservationStatus;
+import com.alvarogm.valuebay.persistence.domain.dto.CoinDTO;
+import com.alvarogm.valuebay.persistence.domain.mapper.CoinMapper;
+import com.alvarogm.valuebay.persistence.domain.model.Coin;
+import com.alvarogm.valuebay.persistence.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

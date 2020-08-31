@@ -1,9 +1,9 @@
 package com.alvarogm.valuebay.service;
 
-import com.alvarogm.valuebay.domain.dto.AuctionDTO;
-import com.alvarogm.valuebay.domain.mapper.AuctionMapper;
-import com.alvarogm.valuebay.domain.model.Auction;
-import com.alvarogm.valuebay.repository.AuctionRepository;
+import com.alvarogm.valuebay.persistence.domain.dto.AuctionDTO;
+import com.alvarogm.valuebay.persistence.domain.mapper.AuctionMapper;
+import com.alvarogm.valuebay.persistence.domain.model.Auction;
+import com.alvarogm.valuebay.persistence.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

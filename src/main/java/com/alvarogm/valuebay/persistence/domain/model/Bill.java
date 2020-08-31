@@ -1,4 +1,4 @@
-package com.alvarogm.valuebay.domain.model;
+package com.alvarogm.valuebay.persistence.domain.model;
 
 import javax.persistence.*;
 

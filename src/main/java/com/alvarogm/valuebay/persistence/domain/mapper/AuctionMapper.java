@@ -1,11 +1,11 @@
-package com.alvarogm.valuebay.domain.mapper;
+package com.alvarogm.valuebay.persistence.domain.mapper;
 
-import com.alvarogm.valuebay.domain.dto.AuctionDTO;
-import com.alvarogm.valuebay.domain.model.Auction;
-import com.alvarogm.valuebay.domain.model.Bill;
-import com.alvarogm.valuebay.domain.model.Coin;
-import com.alvarogm.valuebay.repository.BillRepository;
-import com.alvarogm.valuebay.repository.CoinRepository;
+import com.alvarogm.valuebay.persistence.domain.dto.AuctionDTO;
+import com.alvarogm.valuebay.persistence.domain.model.Auction;
+import com.alvarogm.valuebay.persistence.domain.model.Bill;
+import com.alvarogm.valuebay.persistence.domain.model.Coin;
+import com.alvarogm.valuebay.persistence.repository.BillRepository;
+import com.alvarogm.valuebay.persistence.repository.CoinRepository;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
