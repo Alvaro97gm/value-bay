@@ -3,7 +3,6 @@ package com.alvarogm.valuebay.security;
 import com.alvarogm.valuebay.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.FilterChain;
@@ -88,5 +86,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void unsuccessfulAuthentication
         (HttpServletRequest req, HttpServletResponse res, AuthenticationException failed) {
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
+        res.addHeader("Access-Control-Allow-Origin", "http://localhost:8080"); // CORS Requests
+        res.addHeader("Access-Control-Expose-Headers", "Authorization");       //
     }
 }

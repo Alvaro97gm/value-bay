@@ -20,7 +20,7 @@ public class AuctionController {
     @Autowired
     AuctionService auctionService;
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<AuctionDTO> getAuction(@PathVariable(name = "id") Integer auctionId){
 
@@ -33,7 +33,7 @@ public class AuctionController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/all", produces = "application/json")
     public ResponseEntity<List<AuctionDTO>> getAuctions(){
 

@@ -23,7 +23,7 @@ public class BillController {
     @Autowired
     BillMapper billMapper;
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/{id}", produces = "application/json")
     public ResponseEntity<BillDTO> getBill(@PathVariable(name = "id") Integer lotId){
 
@@ -35,7 +35,7 @@ public class BillController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/all", produces = "application/json")
     public ResponseEntity<List<BillDTO>> getBills(){
 

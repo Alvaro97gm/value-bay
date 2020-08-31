@@ -23,7 +23,7 @@ public class CoinController {
     @Autowired
     CoinMapper coinMapper;
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/{lotId}", produces = "application/json")
     public ResponseEntity<CoinDTO> getCoin(@PathVariable(name = "lotId") Integer lotId){
 
@@ -35,7 +35,7 @@ public class CoinController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/all", produces = "application/json")
     public ResponseEntity<List<CoinDTO>> getCoins(){
 

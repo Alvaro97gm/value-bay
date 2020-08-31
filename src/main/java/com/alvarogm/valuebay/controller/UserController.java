@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     UserMapper userMapper;
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping("/get/id/{userId}")
     public ResponseEntity<UserDTO> findByUserId(@PathVariable(name = "userId") Integer userId){
 
@@ -36,7 +36,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping("/get/email")
     public ResponseEntity<UserDTO> findByEmail(@RequestParam(name = "email") String email){
 

@@ -25,7 +25,8 @@ public class AccessController {
     ){
 
         try{
-            userService.signIn(new UserDTO(null, email, firstName, lastName, password, "USER"));
+            if(!userService.signIn(new UserDTO(null, email, firstName, lastName, password, "USER")))
+                throw new Exception("[USERS] - El email: "+ email + " ya está en uso.");
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());

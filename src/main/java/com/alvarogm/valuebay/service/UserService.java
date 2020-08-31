@@ -35,7 +35,7 @@ public class UserService {
     }
 
 
-    public void signIn(UserDTO userDTO){
+    public boolean signIn(UserDTO userDTO){
 
         userDTO.setUserId(CommonService.generate5DigitsId());
 
@@ -47,8 +47,9 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             userRepository.save(user);
             System.out.println("[USERS] - Usuario: " + userDTO.getUserId() + " registrado en el sistema.");
+            return true;
         }else{
-            System.out.println("[USERS] - El email: " + userDTO.getEmail() + " ya está en uso.");
+            return false;
         }
     }
 

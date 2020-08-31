@@ -20,7 +20,6 @@ public class Auction {
         this.endTime = endTime;
     }
 
-
     public Integer getAuctionId() {
         return auctionId;
     }
@@ -32,7 +31,6 @@ public class Auction {
     public boolean isActive() {
         return active;
     }
-
 
     public void setAuctionId(Integer auctionId) {
         this.auctionId = auctionId;

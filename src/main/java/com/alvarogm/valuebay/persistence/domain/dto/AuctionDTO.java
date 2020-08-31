@@ -10,14 +10,12 @@ public class AuctionDTO {
     private Date endTime;
     private boolean active;
 
-
     public AuctionDTO(){}
     public AuctionDTO(Integer auctionId, Date endTime, boolean active){
         this.auctionId = auctionId;
         this.endTime = endTime;
         this.active = active;
     }
-
 
     public Integer getAuctionId() {
         return auctionId;
@@ -34,7 +32,6 @@ public class AuctionDTO {
     public boolean isActive(){
         return active;
     }
-
 
     public void setAuctionId(Integer auctionId) {
         this.auctionId = auctionId;
