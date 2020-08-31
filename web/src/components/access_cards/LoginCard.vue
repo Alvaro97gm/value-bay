@@ -9,6 +9,7 @@
         </b-input-group-prepend>
         <b-form-input
           id="input-login-email"
+          v-model="userEmail"
           type="email"
           placeholder="Ejemplo@mail.com"
           v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
@@ -21,6 +22,7 @@
         </b-input-group-prepend>
         <b-form-input
           id="input-login-password"
+          v-model="userPassword"
           :type="inputPasswordType"
           placeholder="Contraseña"
           v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
@@ -35,24 +37,44 @@
         </b-input-group-prepend>
       </b-input-group>            
     </b-form>
-    <b-button id="access-button" variant="success" @click="get()">Acceder</b-button>
+    <b-button id="access-button" variant="success" @click="login()">Acceder</b-button>
     <p id="register-text">¿No tienes cuenta? <a href="#">Regístrate</a></p>         
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import config from '../../config';
+
 export default {
-  name: "LoginCard",
+  name: 'LoginCard',
   data: function() {
     return {
       isPasswordHidden: true,
-      inputPasswordType: 'password'
+      inputPasswordType: 'password',
+      userEmail: '',
+      userPassword: ''
     }
   },
-  // TODO: Gestionar GET Request a /localhost:8080/users/login
+
   methods: {
+    login: function(){
+      axios({
+        method: 'post',
+        url: config.serverURL + config.APIEndpoints.Security.login,
+        params: this.createPathVariables()
+      }).then(res => {console.log(res.headers)})
+    },
+    isValidInfo: function(){
+      return this.userEmail != null && this.userPassword != null         
+    },
+
+    createPathVariables: function(){
+      if(this.isValidInfo())
+        return { email: this.userEmail, password: this.userPassword }
+    },
     tooglePasswordVisibility: function(){
-      this.$data.inputPasswordType = this.$data.inputPasswordType === "password" ? "text" : "password";
+      this.$data.inputPasswordType = this.$data.inputPasswordType === 'password' ? 'text' : 'password';
       this.$data.isPasswordHidden = !this.$data.isPasswordHidden;
     }
   }

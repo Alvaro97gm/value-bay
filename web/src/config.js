@@ -1,9 +1,9 @@
 export default {
-  serverURL: 'http://localhost:8080',
+  serverURL: 'http://localhost:8081',
   APIEndpoints: {
-    Users: {
-      register:'/users/register',
-      login: '/users/login'
-    }
+    Security: {
+      login:    '/login',
+      register: '/signin'
+    },
   }
 }

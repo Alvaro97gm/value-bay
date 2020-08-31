@@ -93,15 +93,16 @@ export default {
     }
   },
 
-  // TODO: Gestionar POST Request a /localhost:8080/users/register
+  // TODO: Gestionar respuesta en función del status
   methods: {
     register: function(){
-      axios.post(config.serverURL + config.APIEndpoints.Users.register + this.createPathVariables())
-        .then(resp => {
-          console.log(resp.status + ' - ' + resp.statusText);
+      axios.post(config.serverURL + config.APIEndpoints.Security.register + this.createPathVariables())
+        .then(res => {
+          console.log(res.status + ' - ' + res.statusText);
         })
     },
 
+    // TODO: Añadir verificación de correo electrónico
     isValidInfo: function(){
       return (
         this.userName != null           &&

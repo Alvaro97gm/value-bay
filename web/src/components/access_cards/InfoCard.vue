@@ -1,5 +1,6 @@
 <template>
   <div id="info-card">
+    <h3>¿Cómo funciona?</h3>
     <div class="info-item">
       <div class="icon-background">
         <b-icon icon="search" scale="2" variant="light"></b-icon>
