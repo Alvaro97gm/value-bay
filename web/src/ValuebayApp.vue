@@ -1,9 +1,10 @@
 <template>
   <Access v-if="jwt === ''"/>
-  <Home :jwt="jwt" v-else/>
+  <Home v-else/>
 </template>
 
 <script>
+import jwt from 'jsonwebtoken';
 import EventBus from './util/eventBus';
 import Access from './views/Access';
 import Home from './views/Home';
@@ -16,19 +17,38 @@ export default {
   },
   data: function() {
     return {
-      jwt: ""
+      jwt: ''
     }
   },
-  methods: {
-    setToken: function(token){
-      this.$data.jwt = token
+  methods:{
+    extractDataFromJWT: function(rawToken){
+      
+      var tokenPayload = jwt.decode(rawToken.substring(7), {json: true})
+      if(tokenPayload != null)
+        return tokenPayload.userData
+      // TODO: Modificar campos de creación del token
+    },
+    storeToken: function(token){
+      localStorage.setItem('userData', JSON.stringify(this.extractDataFromJWT(token)))
+      localStorage.setItem('jwt', token)
+      this.loadToken()
+    },
+    deleteToken: function(){
+      localStorage.setItem('userData', '')
+      localStorage.setItem('jwt', '')
+      this.$data.jwt = ''      
+    },
+    loadToken: function(){
+      this.$data.jwt = localStorage.getItem('jwt')
     }
   },
   mounted: function() {
-    var appContext = this;
-    EventBus.$on('STORE_TOKEN', function(payload){
-      appContext.$data.jwt = payload
-    })
+  
+    if(localStorage.getItem('jwt') != '') this.loadToken(localStorage.getItem('jwt'))
+    
+    var appContext = this
+    EventBus.$on('STORE_TOKEN', (payload) => { appContext.storeToken(payload) })
+    EventBus.$on('DELETE_TOKEN', () => { appContext.deleteToken() })
   } 
 }
 </script>

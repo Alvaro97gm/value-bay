@@ -12,10 +12,10 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
+    "jsonwebtoken": "^8.5.1",
     "popper.js": "^1.16.1",
     "sweetalert2": "^9.17.1",
-    "vue": "^2.6.11",
-    "webpack": "^4.44.1"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

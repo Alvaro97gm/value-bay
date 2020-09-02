@@ -4,7 +4,9 @@
     <hr>
     <b-form id="input-login-group">
       <b-input-group class="input-group mb2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend 
+          v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
+          is-text>
           <b-icon icon="envelope-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
@@ -12,12 +14,13 @@
           v-model="userEmail"
           type="email"
           placeholder="Ejemplo@mail.com"
-          v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
           required>
         </b-form-input> 
       </b-input-group>
       <b-input-group class="input-group mb2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend 
+          v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
+          is-text>
           <b-icon icon="lock-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
@@ -25,7 +28,7 @@
           v-model="userPassword"
           :type="inputPasswordType"
           placeholder="Contraseña"
-          v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
+          @keyup.enter="login()"
           required>
         </b-form-input>
         <b-input-group-prepend
@@ -38,7 +41,15 @@
       </b-input-group>            
     </b-form>
     <b-button id="access-button" variant="success" @click="login()">Acceder</b-button>
-    <p id="register-text">¿No tienes cuenta? <a href="#">Regístrate</a></p>         
+    <p id="signin-text">¿No tienes cuenta?
+      <b-button 
+        id="signin-button"
+        variant="outline-success" 
+        size="sm"
+        @click="showSignin()">
+        Regístrate
+      </b-button>
+    </p>         
   </div>
 </template>
 
@@ -97,9 +108,14 @@ export default {
         return { email: this.userEmail, password: this.userPassword }
       return null
     },
+
     tooglePasswordVisibility: function(){
       this.$data.inputPasswordType = this.$data.inputPasswordType === 'password' ? 'text' : 'password'
       this.$data.isPasswordHidden = !this.$data.isPasswordHidden
+    },
+
+    showSignin: function() {
+      EventBus.$emit('SHOW_SIGNIN');
     }
   }
 }
@@ -127,9 +143,13 @@ export default {
   align-self: center;
 }
 
-#register-text {
+#signin-text {
   margin-top: .75em;
   align-self: center;
+}
+
+#signin-button {
+  margin-left: 1em;
 }
 
 hr {

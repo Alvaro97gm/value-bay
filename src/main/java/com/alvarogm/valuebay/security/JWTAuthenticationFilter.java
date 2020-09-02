@@ -1,5 +1,7 @@
 package com.alvarogm.valuebay.security;
 
+import com.alvarogm.valuebay.persistence.domain.dto.UserDTO;
+import com.alvarogm.valuebay.persistence.domain.mapper.UserMapper;
 import com.alvarogm.valuebay.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,9 +20,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -34,6 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final String signingKey;
 
     private UserService userService;
+    private UserMapper userMapper;
 
     public JWTAuthenticationFilter(AuthenticationManager authManager, String signingKey){
 
@@ -58,15 +59,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication
         (HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth)
     {
-        // Spring doesn't permit the injection of dependencies in Filter so we have to load the Bean manually
+        // Spring doesn't permit dependency injection in Filter,
+        // so we have to load UserService Bean manually
         if(userService == null){
             ServletContext servContext = req.getServletContext();
             WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(servContext);
-            if(webContext != null)
+            if(webContext != null){
                 userService = webContext.getBean(UserService.class);
+                userMapper = webContext.getBean(UserMapper.class);
+            }
         }
 
         List<String> roles = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("userData",  userMapper.userToUserDTO(userService.findByEmail(auth.getName())));
 
         String token = Jwts.builder()
             .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -74,6 +80,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             .setSubject(userService.findByEmail(auth.getName()).getUserId().toString())
             .setExpiration(new Date(System.currentTimeMillis() + TOKEN_TIME_ALIVE))
             .addClaims(Collections.singletonMap(ROLE_CLAIMS, roles))
+            .addClaims(userData)
             .signWith(SignatureAlgorithm.HS256, signingKey.getBytes())
             .compact();
 

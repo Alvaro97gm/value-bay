@@ -4,7 +4,7 @@ export default {
     title: 'Bienvenido',
     text: 'Acceso autorizado',
     showConfirmButton: false,
-    timer: 1500,
+    timer: 1000,
     timerProgressBar: true 
   },
 

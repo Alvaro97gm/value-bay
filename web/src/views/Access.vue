@@ -1,46 +1,52 @@
 <template>
   <div id="root">
-    <div id="left-side">
+    <div id="left-side" v-if="login">
       <img id="logo" src="../../public/logo.png" alt="Logo">
       <LoginCard id="login-card"/>
     </div>
     <div id="middle-side">
-      <b-button id="register-nav-button" variant="success" @click="showRegister()">Registro</b-button>
-      <InfoCard id="info-card"/>      
-      <b-button id="login-nav-button" variant="success" @click="showLogin()">Acceso</b-button>      
+      <InfoCard id="info-card"/>
     </div>
-    <div id="right-side" class="hidden">
+    <div id="right-side" class="hidden" v-if="signin">
       <img id="logo" src="../../public/logo.png" alt="Logo">
-      <RegisterCard id="register-card"/>
+      <SigninCard id="signin-card"/>
     </div>
   </div>
 </template>
 
 <script>
+import EventBus from '../util/eventBus';
 import LoginCard from '../components/access_cards/LoginCard';
-import RegisterCard from '../components/access_cards/RegisterCard';
+import SigninCard from '../components/access_cards/SigninCard';
 import InfoCard from '../components/access_cards/InfoCard';
 
 export default {
   name: "Access",
   components: {
     LoginCard,
-    RegisterCard,
+    SigninCard,
     InfoCard
   },
-  methods: {
-    showRegister: function(){
-      document.getElementById("left-side").style.display = "none";
-      document.getElementById("right-side").style.display = "flex";
-      document.getElementById("register-nav-button").style.display="none";
-      document.getElementById("login-nav-button").style.display="inherit";
-    },
-    showLogin: function(){
-      document.getElementById("right-side").style.display = "none";
-      document.getElementById("left-side").style.display = "flex";
-      document.getElementById("login-nav-button").style.display = "none";
-      document.getElementById("register-nav-button").style.display = "inherit";      
+  data: function(){
+    return {
+      login: true,
+      signin: false
     }
+  },
+  methods: {
+    showSignin: function(){
+      this.login = false;
+      this.signin = true;
+    },
+    showLogin: function(){      
+      this.login = true;
+      this.signin = false;      
+    }
+  },
+  mounted: function(){
+    var accessContext = this;
+    EventBus.$on('SHOW_LOGIN', () => accessContext.showLogin())
+    EventBus.$on('SHOW_SIGNIN', () => accessContext.showSignin())
   }
 }
 </script>
@@ -114,7 +120,7 @@ export default {
   padding: 0;
 }
 
-#register-nav-button {
+#signin-nav-button {
   display: flex;
   position: fixed;
   justify-content: center;
@@ -126,7 +132,7 @@ export default {
   box-shadow: -2px 5px 35px black;  
 }
 
-#register-nav-button:hover, #login-nav-button:hover {
+#signin-nav-button:hover, #login-nav-button:hover {
   transition: all 200ms ease-in;
   transform: scale(1.1);
   cursor: pointer;
@@ -135,14 +141,14 @@ export default {
 /* RIGHT_SIDE */
 
 #right-side {
-  display: none;
+  display: flex;
   flex-direction: column;
   width: 65%;
   background-color: rgba(16, 167, 41, 0.65);
   box-shadow: inset 5px 5px 80px black;
 }
 
-#register-card {
+#signin-card {
   width: 55%;
   margin-top: 2em;
   padding: 2em 2.5em 2em 2.5em;
@@ -152,5 +158,18 @@ export default {
   background-color: white;
   border-radius: 10px;
   box-shadow: -5px 5px 35px black;
+}
+
+
+@media (max-width: 800px){
+  #left-side {
+    width: 100%;
+  }
+  #middle-side {
+    display: none;
+  }
+  #right-side {
+    width: 100%;
+  }
 }
 </style>

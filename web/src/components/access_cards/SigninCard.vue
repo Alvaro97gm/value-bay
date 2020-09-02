@@ -1,11 +1,13 @@
 <template>
-  <div id="register-card">
-    <h2 id="register-title">Registro</h2>
+  <div id="signin-card">
+    <h2 id="signin-title">Registro</h2>
     <hr>
-    <b-form id="input-register-group">
+    <b-form id="input-signin-group">
 
       <b-input-group class="input-group mb2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend 
+          v-b-tooltip.hover.left title="Por favor, introduce tu nombre y apellidos."
+          is-text>
           <b-icon icon="person-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
@@ -13,7 +15,6 @@
           v-model="userName"
           type="text"
           placeholder="Nombre"
-          v-b-tooltip.hover.left title="Por favor, introduce tu nombre."
           required>
         </b-form-input>
 
@@ -22,43 +23,50 @@
           v-model="userLastname"
           type="text"
           placeholder="Apellidos"
-          v-b-tooltip.hover.left title="Por favor, introduce tus apellidos."
           required>
         </b-form-input>
       </b-input-group>
 
       <b-input-group class="input-group mb2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend 
+          v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
+          is-text>
           <b-icon icon="envelope-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-register-email"
+          id="input-signin-email"
           v-model="userEmail"
           type="email"
           placeholder="Ejemplo@mail.com"
-          v-b-tooltip.hover.left title="Por favor, introduce tu correo electrónico/e-mail."
           required>
         </b-form-input> 
       </b-input-group>
       
       <b-input-group class="input-group mb2">
-        <b-input-group-prepend is-text>
+        <b-input-group-prepend
+          v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
+          is-text>
           <b-icon icon="lock-fill"></b-icon>
         </b-input-group-prepend>
         <b-form-input
-          id="input-register-password"
+          id="input-signin-password"
           v-model="userPassword"
           :type="inputPasswordType"
           placeholder="Contraseña"
-          v-b-tooltip.hover.left title="Por favor, introduce tu contraseña."
+          
           required>
         </b-form-input>
+        <b-input-group-prepend
+          v-b-tooltip.hover.left title="Por favor, repite tu contraseña."
+          is-text>
+          <b-icon icon="shield-fill-check"></b-icon>
+        </b-input-group-prepend>
         <b-form-input
           id="input-repeat-password"
           v-model="repeatPassword"
           :type="inputPasswordType"
-          placeholder="Repetir contraseña"
-          v-b-tooltip.hover.left title="Por favor, repite tu contraseña."
+          placeholder="Contraseña"
+          @keyup.enter="signin()"
           required>
         </b-form-input>
         <b-input-group-prepend
@@ -70,8 +78,16 @@
         </b-input-group-prepend>
       </b-input-group>            
     </b-form>
-    <b-button id="register-button" variant="success" @click="register()">Enviar</b-button>
-    <p id="access-text">¿Ya tienes cuenta? <a href="#">Accede</a></p>         
+    <b-button id="signin-button" variant="success" @click="signin()">Enviar</b-button>
+    <p id="access-text">¿Ya tienes cuenta?
+      <b-button 
+        id="login-button"
+        variant="outline-success" 
+        size="sm"
+        @click="showLogin()">
+        Accede
+      </b-button>
+    </p>         
   </div>
 </template>
 
@@ -82,7 +98,7 @@ import config from '../../util/config';
 import configAlert from '../../util/configAlert';
 
 export default {
-  name: "RegisterCard",
+  name: "SigninCard",
   data: function() {
     return {
       isPasswordHidden: true,
@@ -97,7 +113,7 @@ export default {
 
   // TODO: Gestionar respuesta en función del status
   methods: {
-    register: function(){
+    signin: function(){
       var currentContext = this;
       var reqParams = this.createPathVariables();
       if(reqParams === null){
@@ -110,7 +126,7 @@ export default {
       // ===== SIGN-IN REQUEST =====
       axios({
         method: 'post',
-        url: config.serverURL + config.APIEndpoints.Security.register,
+        url: config.serverURL + config.APIEndpoints.Security.signin,
         params: reqParams
       }).then(res => {
         if(res.status === 200)
@@ -178,17 +194,21 @@ export default {
     tooglePasswordVisibility: function(){
       this.$data.inputPasswordType = this.$data.inputPasswordType === "password" ? "text" : "password";
       this.$data.isPasswordHidden = !this.$data.isPasswordHidden;
+    },
+
+    showLogin: function(){
+      EventBus.$emit('SHOW_LOGIN')
     }
   }
 }
 </script>
 
 <style scoped>
-#register-title {
+#signin-title {
   align-self: center;
 }
 
-#input-register-group {
+#input-signin-group {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -198,7 +218,7 @@ export default {
   margin: 1em 0 .5em 0;
 }
 
-#register-button {
+#signin-button {
   width: 30%;
   margin-top: 1.5em;
   margin-bottom: 1em;
@@ -208,6 +228,10 @@ export default {
 #access-text {
   margin-top: .75em;
   align-self: center;
+}
+
+#login-button {
+  margin-left: 1em; 
 }
 
 hr {
