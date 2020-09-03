@@ -1,37 +1,63 @@
 <template>
-  <div>
+  <div id="home">
     <Navbar/>
-    <b-button-group>
-      <b-button variant="outline-danger" @click="getAllCoins()">Descargar coins</b-button>
-      <b-button variant="outline-danger" @click="getAllBills()">Descargar bills</b-button>
-      <b-button variant="outline-danger" @click="clearData()">Limpiar</b-button>
-    </b-button-group>
-    <div v-if="coinLots != null">
-      <h2>MONEDAS</h2>
-      <h5 v-for="lot in coinLots" :key="lot.lotId">
-        ID:{{lot.lotId}} - Moneda de {{lot.itemValue}} pesetas - {{lot.emissionYear}} - {{lot.conservationStatusDetailed}} -> {{lot.price}} €
-      </h5>
+    <Admin v-if="views.admin"/>
+    <div id="sandbox" v-else>
+      <b-button-group class="buttons">
+        <b-button class="button" variant="outline-success" @click="getAllCoins()">Descargar coins</b-button>
+        <b-button class="button" variant="outline-success" @click="getAllBills()">Descargar bills</b-button>
+        <b-button class="button" variant="outline-success" @click="clearData()">Limpiar</b-button>
+      </b-button-group>
+      <div id="monedas" v-if="coinLots != null">      
+        <TempMiniProduct
+          class="coin-product"
+          v-for="item in coinLots" :key="item.itemId"
+          :itemId="item.itemId"
+          itemType="Moneda"
+          :itemValue="item.itemValue"
+          :itemDate="item.emissionYear"
+          :itemConservationStatus="item.conservationStatus"
+          :itemConservationStatusDetailed="item.conservationStatusDetailed"
+          :itemPrice="item.price"
+          />
+      </div>
+      <div id="billetes" v-if="billLots != null">      
+        <TempMiniProduct
+          class="bill-product"
+          v-for="item in billLots" :key="item.itemId"
+          :itemId="item.itemId"
+          itemType="Billete"
+          :itemValue="item.itemValue"
+          :itemDate="item.emissionYear"
+          :itemConservationStatus="item.conservationStatus"
+          :itemConservationStatusDetailed="item.conservationStatusDetailed"
+          :itemPrice="item.price"
+          />
+      </div>      
     </div>
-    <div v-if="billLots != null">
-      <h2>BILLETES</h2>
-      <h5 v-for="lot in billLots" :key="lot.lotId">
-        ID:{{lot.lotId}} - Billete de {{lot.itemValue}} pesetas - {{lot.emissionYear}} - {{lot.conservationStatusDetailed}} -> {{lot.price}} €
-      </h5>
-    </div>
+    
   </div>    
 </template>
 <script>
 import axios from 'axios';
 import config from '../util/config';
 import Navbar from '../components/Navbar';
+import Admin from './Admin';
+import TempMiniProduct from '../components/TempMiniProduct';
+import EventBus from '../util/eventBus';
 
 export default {
   name: "Home",
   components: {
-    Navbar
+    Navbar,
+    Admin,
+    TempMiniProduct
   },
   data: function(){
     return {
+      views: {
+        admin: false
+      },
       userData: null,
       coinLots: [],
       billLots: []
@@ -73,16 +99,58 @@ export default {
     clearData: function(){
       this.$data.coinLots = []
       this.$data.billLots = []
+    },
+
+    renderAdminView: function(){
+      this.$data.views.admin = true;
+    },
+    hideAdminView: function(){
+      this.$data.views.admin = false;
     }
   },
   beforeMount: function(){
     this.$data.userData = JSON.parse(localStorage.getItem('userData'))
+    
+  },
+  mounted: function(){
+
+    var currentContext = this
+    EventBus.$on('SHOW_ADMIN', () => {currentContext.renderAdminView()})
+    EventBus.$on('SHOW_HOME', () => {currentContext.hideAdminView()})
   }
+  
 }
 </script>
 <style scoped>
-/* body {
-  margin: 0;
-  padding: 0;
-} */
+#home {
+  display: flex;
+  flex-direction: column;
+}
+/* TODO: Eliminar */
+#sandbox {
+  display: flex;
+  flex-direction: column;
+}
+
+#monedas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#billetes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.buttons {
+  align-self: center;
+  margin: 2em;
+  width: 50%;
+}
+
+.button{
+  margin: .5em;
+  border-radius: 10px;
+}
 </style>

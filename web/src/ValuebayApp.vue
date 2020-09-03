@@ -26,7 +26,6 @@ export default {
       var tokenPayload = jwt.decode(rawToken.substring(7), {json: true})
       if(tokenPayload != null)
         return tokenPayload.userData
-      // TODO: Modificar campos de creación del token
     },
     storeToken: function(token){
       localStorage.setItem('userData', JSON.stringify(this.extractDataFromJWT(token)))

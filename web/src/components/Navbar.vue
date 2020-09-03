@@ -7,6 +7,7 @@
     <div id="account-buttons">
       <b-button
         class="margin-right-1em"
+        @click="loadHomeView()"
         variant="success">
         Inicio
       </b-button>
@@ -42,7 +43,7 @@
           Notificaciones
         </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item variant="success" v-if="isAdmin()"> 
+        <b-dropdown-item variant="success" @click="loadAdminView()" v-if="isAdmin()"> 
           <b-icon class="margin-right-0_5em" icon="lightning"></b-icon>
           Administrador
         </b-dropdown-item>
@@ -70,6 +71,12 @@ export default {
      },
      isAdmin: function(){
        return JSON.parse(localStorage.getItem('userData')).role === 'ADMIN'
+     },
+     loadAdminView: function(){
+       EventBus.$emit('SHOW_ADMIN')
+     },
+     loadHomeView: function(){
+       EventBus.$emit('SHOW_HOME')
      }
    }
 }

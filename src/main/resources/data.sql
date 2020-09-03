@@ -77,7 +77,7 @@ CREATE TABLE users (
     role            VARCHAR(6)      NOT NULL
 );
 
-INSERT INTO users VALUES (99999, 'admin@valuebay.com', 'admin', 'admin', '$2a$10$6Hq/kP/hSfOl9zbWud7GlO1wlynHjbttODISzk./nFRg/XIp6ezeO', 'ADMIN');
+INSERT INTO users VALUES (99999, 'admin@valuebay.com', 'Admin', 'admin', '$2a$10$6Hq/kP/hSfOl9zbWud7GlO1wlynHjbttODISzk./nFRg/XIp6ezeO', 'ADMIN');
 INSERT INTO users VALUES (12629, 'Alvaro97gm@gmail.com', 'Alvaro', 'Garcia Merino', '$2b$10$3euPcmQFCiblsZeEu5s7p.9OVHgeHWFDk9nhMqZ0m/3pd/lhwZgES', 'USER');
 INSERT INTO users VALUES (83221, 'Juancar922@gmail.com', 'Juan Carlos', 'Pérez Acebrón', '$2b$10$3euPcmQFCiblsZeEwrntu5s7p.kSDWFDk9nhMqZ0m/3pd/lhwasgES', 'USER');
 INSERT INTO users VALUES (91164, 'ochtyruj@gmail.com', 'Jorge', 'Retuerta Merino', '$2b$10$3euPcFe6trblsZeEu5s7p.lSVHgeHWFDk9nhMqZ0m/3pd/lhwZgES', 'USER');

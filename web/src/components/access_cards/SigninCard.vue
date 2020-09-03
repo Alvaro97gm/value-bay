@@ -111,7 +111,6 @@ export default {
     }
   },
 
-  // TODO: Gestionar respuesta en función del status
   methods: {
     signin: function(){
       var currentContext = this;
