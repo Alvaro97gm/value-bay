@@ -1,4 +1,18 @@
 export default {
+  
+  ADD_OK: {
+    icon: 'success',
+    title: 'Item añadido correctamente',
+    timer: 1200,
+    timerProgressBar: true
+  },
+
+  ACCESS_DENIED: {
+    icon: 'error',
+    title: 'Credenciales incorrectas',
+    text: 'Acceso no autorizado',
+  },
+
   ACCESS_GRANTED: {
     icon: 'success',
     title: 'Bienvenido',
@@ -8,16 +22,11 @@ export default {
     timerProgressBar: true 
   },
 
-  SIGN_IN_SUCCEED: {
+  DELETE_OK: {
     icon: 'success',
-    title: 'Bienvenido',
-    text: 'Ha sido registrado exitosamente'
-  },
-
-  ACCESS_DENIED: {
-    icon: 'error',
-    title: 'Credenciales incorrectas',
-    text: 'Acceso no autorizado',
+    title: 'El ítem se ha eliminado correctamente',
+    timer: 1200,
+    timerProgressBar: true
   },
 
   EMAIL_IN_USE: {
@@ -32,12 +41,6 @@ export default {
     text: 'Por favor, revise los campos',
   },
 
-  NOT_MATCHING_PASS: {
-    icon: 'warning',
-    title: 'Las contraseñas no coinciden',
-    text: 'Por favor, comprueba los valores introducidos'
-  },
-
   GENERIC_ERROR: {
     icon: 'error',
     title: 'Error',
@@ -45,5 +48,17 @@ export default {
     showConfirmButton: false,
     timer: 2000,
     timerProgressBar: true 
+  },
+
+  NOT_MATCHING_PASS: {
+    icon: 'warning',
+    title: 'Las contraseñas no coinciden',
+    text: 'Por favor, comprueba los valores introducidos'
+  },
+
+  SIGN_IN_SUCCEED: {
+    icon: 'success',
+    title: 'Bienvenido',
+    text: 'Ha sido registrado exitosamente'
   }
 }

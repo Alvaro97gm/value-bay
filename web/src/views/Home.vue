@@ -10,7 +10,6 @@
       </b-button-group>
       <div id="monedas" v-if="coinLots != null">      
         <TempMiniProduct
-          class="coin-product"
           v-for="item in coinLots" :key="item.itemId"
           :itemId="item.itemId"
           itemType="Moneda"
@@ -23,7 +22,6 @@
       </div>
       <div id="billetes" v-if="billLots != null">      
         <TempMiniProduct
-          class="bill-product"
           v-for="item in billLots" :key="item.itemId"
           :itemId="item.itemId"
           itemType="Billete"

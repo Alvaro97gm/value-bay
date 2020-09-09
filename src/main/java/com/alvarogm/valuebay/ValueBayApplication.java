@@ -17,6 +17,7 @@ public class ValueBayApplication implements WebMvcConfigurer {
 		// CORS Allowed origin - Vue frontend server
 		registry
 			.addMapping("/**")
-			.allowedOrigins("http://localhost:8080");
+			.allowedOrigins("http://localhost:8080")
+			.allowedMethods("GET","POST","DELETE");
 	}
 }

@@ -1,6 +1,6 @@
 package com.alvarogm.valuebay.security;
 
-import com.alvarogm.valuebay.persistence.domain.dto.UserDTO;
+
 import com.alvarogm.valuebay.persistence.domain.mapper.UserMapper;
 import com.alvarogm.valuebay.service.UserService;
 import io.jsonwebtoken.Jwts;

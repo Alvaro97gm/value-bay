@@ -7,9 +7,9 @@ export default {
     },
     Lot: {
       Bill: {
-        insert: '/bills/insert',
-        get: '/bills/get/',
-        getAll: '/bills/get/all',
+        insert: '/bills/insert',      
+        get: '/bills/get/',           
+        getAll: '/bills/get/all',     
         modify: '/bills/mod/',
         delete: '/bills/delete/'
       },
