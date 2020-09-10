@@ -1,20 +1,20 @@
 <template>
   <b-modal
-      id="add-coin-modal"
+      id="add-bill-modal"
       header-bg-variant="success"
       header-text-variant="light"
-      title="Añadir moneda">
+      title="Añadir billete">
 
       <template v-slot:default>
         <form ref="form">
-          <b-form-group label="Valor de la moneda">
+          <b-form-group label="Valor del billete">
             <b-input-group>
               <b-form-input v-model="selectedValue" type="number" id="item-value" required></b-form-input>
               <b-input-group-append is-text>Pts</b-input-group-append>
             </b-input-group>
           </b-form-group>
-          <b-form-group label="Año de emisión" label-for="emission-year">
-            <b-form-input v-model="selectedYear" type="number" id="emission-year" required></b-form-input>
+          <b-form-group label="Fecha de emisión" label-for="emission-date">
+            <b-form-input v-model="selectedDate" type="date" id="emission-date" required></b-form-input>
           </b-form-group>
           <b-form-group label="Estado de conservación" label-for="conservation-status">          
             <b-form-select
@@ -33,7 +33,7 @@
                 v-model="selectedPrice"
                 type="number"
                 id="item-price"
-                @keyup.enter="addCoin()"
+                @keyup.enter="addBill()"
                 required>
               </b-form-input>
               <b-input-group-append is-text>€</b-input-group-append>
@@ -46,7 +46,7 @@
         <b-button size="sm" variant="outline-dark" @click="cancel()">
           Cancelar
         </b-button>
-        <b-button size="sm" variant="success" @click="addCoin()">
+        <b-button size="sm" variant="success" @click="addBill()">
           Guardar
         </b-button>        
       </template>
@@ -59,7 +59,7 @@ import configAlert from '../../util/configAlert';
 import EventBus from '../../util/eventBus';
 
 export default {
-  name: "AddCoinModal",
+  name: "AddBillModal",
   data: function() {
     return {      
       options: [
@@ -69,15 +69,18 @@ export default {
           { value: 'EBC', text: 'EBC - Excelentemente buena conservación' },
           { value: 'SC',  text: 'SC - Sin circular' }
       ],
-      selectedValue: null,      
-      selectedYear: null,            
+      selectedValue: null,
+      selectedDate: null,
+      selectedYear: null,
+      selectedMonth: null,
+      selectedDay: null,
       selectedConsStatus: null, 
       selectedPrice: null,    
     }
   },
   methods: {
 
-    addCoin: function(){      
+    addBill: function(){      
       var reqParams = this.createParams();
       if(reqParams === null){
         this.$root.customAlert(configAlert.FORM_NOT_COMPLETE)
@@ -88,7 +91,7 @@ export default {
       var ls = localStorage
       axios({
         method: 'post',
-        url: config.serverURL + config.APIEndpoints.Lot.Coin.insert,
+        url: config.serverURL + config.APIEndpoints.Lot.Bill.insert,
         params: reqParams,
         headers: {
           'Authorization': ls.getItem('jwt'),
@@ -98,11 +101,11 @@ export default {
       .then(res => {
         if(res.status === 200){
           this.$root.customAlert(configAlert.ADD_OK);
-          EventBus.$emit('COINS_UPDATED')
-          currentContext.resetValues()
+          EventBus.$emit('BILLS_UPDATED')
         }else{
           this.$root.customAlert(configAlert.GENERIC_ERROR);
-        }        
+        }
+        currentContext.resetValues()
       }).catch(() => {
         this.$root.customAlert(configAlert.GENERIC_ERROR)
       })
@@ -110,7 +113,7 @@ export default {
     validateForm: function(){
       return (
         this.selectedValue != null        && 
-        this.selectedYear != null         &&
+        this.selectedDate != null         &&
         this.selectedConsStatus != null   &&
         this.selectedPrice != null
       )
@@ -118,9 +121,12 @@ export default {
     createParams: function(){
 
       if(this.validateForm()){
+        var dateArray = this.selectedDate.split('-') 
         return {
           itemValue: this.selectedValue,
-          emissionYear: this.selectedYear,
+          emissionYear: dateArray[0],
+          emissionMonth: dateArray[1],
+          emissionDay: dateArray[2],
           conservationStatus: this.selectedConsStatus,
           price: this.selectedPrice
         }
@@ -129,7 +135,7 @@ export default {
     },
     resetValues: function(){
       this.selectedValue = null
-      this.selectedYear = null
+      this.selectedDate = null
       this.selectedConsStatus = null
       this.selectedPrice = null
     }

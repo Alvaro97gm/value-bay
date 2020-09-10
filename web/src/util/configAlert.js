@@ -50,10 +50,20 @@ export default {
     timerProgressBar: true 
   },
 
+  NOT_FOUND: {
+    icon: 'error',
+    title: 'Artículo no encontrado'
+  },
+
   NOT_MATCHING_PASS: {
     icon: 'warning',
     title: 'Las contraseñas no coinciden',
     text: 'Por favor, comprueba los valores introducidos'
+  },
+
+  NOT_SELECTED_ITEM: {
+    icon: 'warning',
+    title: 'No se ha seleccionado ningún artículo'    
   },
 
   SIGN_IN_SUCCEED: {

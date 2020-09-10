@@ -1,26 +1,26 @@
 <template>
   <b-modal
-    id="delete-coin-modal"
+    id="delete-bill-modal"
     header-bg-variant="danger"
     header-text-variant="light"
-    title="Eliminar moneda">
+    title="Eliminar billete">
 
     <template v-slot:default>
       <form ref="form">
         <b-form-group 
-          :description="'ID: ' + (delSelectedCoin != null ? + delSelectedCoin : '')"
+          :description="'ID: ' + (delSelectedBill != null ? + delSelectedBill : '')"
           label="Selecciona el artículo a eliminar"
           label-for="delete-lot">
           <b-form-select
             id="delete-lot"
-            v-model="delSelectedCoin"
+            v-model="delSelectedBill"
             required>
             <b-form-select-option :value="null">Artículos...</b-form-select-option>
             <b-form-select-option
-              v-for="coin in coinsInfo" 
-              :key="coin.lotId"
-              :value="coin.lotId">
-              ID: {{coin.lotId}} - {{coin.itemValue}} PTS - {{coin.emissionYear}} - {{coin.conservationStatus}}
+              v-for="bill in billsInfo" 
+              :key="bill.lotId"
+              :value="bill.lotId">
+              ID: {{bill.lotId}} - {{bill.itemValue}} PTS - {{bill.emissionDay}}/{{bill.emissionMonth}}/{{bill.emissionYear}} - {{bill.conservationStatus}}
             </b-form-select-option>
           </b-form-select>
         </b-form-group>     
@@ -45,25 +45,21 @@ import configAlert from '../../util/configAlert';
 
 
 export default {
-  name: "DelCoinModal",
+  name: "DelBillModal",
   data: function(){
     return {
-      delSelectedCoin: null,
-      coinsInfo: null
+      delSelectedBill: null,
+      billsInfo: null
     }    
   },
   methods: {
     deleteBill: function(){
-      if(this.delSelectedCoin === null){
-        this.$root.customAlert(configAlert.NOT_SELECTED_ITEM)
-        return
-      }
-      
+
       var currentContext = this
       var ls = localStorage
       axios({
         method: 'delete',
-        url: config.serverURL + config.APIEndpoints.Lot.Coin.delete + this.delSelectedCoin,
+        url: config.serverURL + config.APIEndpoints.Lot.Bill.delete + this.delSelectedBill,
         headers: {
           'Authorization': ls.getItem('jwt'),
           'Content-Type': 'application/json'
@@ -72,8 +68,8 @@ export default {
         if(res.status === 200){
           this.$root.customAlert(configAlert.DELETE_OK)
           currentContext.getBillsInfo();
-          currentContext.delSelectedCoin = null;
-          EventBus.$emit('COINS_UPDATED')
+          currentContext.delSelectedBill = null;
+          EventBus.$emit('BILLS_UPDATED')
         }else{
           this.$root.customAlert(configAlert.GENERIC_ERROR)
         }
@@ -87,14 +83,14 @@ export default {
       var currentContext = this
       axios({
         method: 'get',
-        url: config.serverURL + config.APIEndpoints.Lot.Coin.getAll,
+        url: config.serverURL + config.APIEndpoints.Lot.Bill.getAll,
         headers: {
           'Authorization': ls.getItem('jwt'),
           'Content-Type': 'application/json'
         }
       })      
       .then(res => {
-        currentContext.coinsInfo = res.data
+        currentContext.billsInfo = res.data
       })
     } 
   },
@@ -103,7 +99,7 @@ export default {
   },
   mounted: function(){
     var currentContext = this
-    EventBus.$on('COINS_UPDATED', () => {currentContext.getBillsInfo()})
+    EventBus.$on('BILLS_UPDATED', () => {currentContext.getBillsInfo()})
   }
 }
 </script>

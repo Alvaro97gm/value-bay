@@ -35,19 +35,19 @@
           Gestión de <span class="green-text">Monedas</span>
         </h4>
         <div class="actions">
-          <div class="action">
+          <div v-b-modal.add-coin-modal class="action">
             <b-icon variant="success" scale=1.75 icon="plus-circle-fill"></b-icon>
             <h3>Añadir</h3>
           </div>
-          <div class="action">
+          <div v-b-modal.delete-coin-modal class="action">
             <b-icon variant="danger" scale=1.75 icon="dash-circle-fill"></b-icon>
             <h3>Eliminar</h3>
           </div>
-          <div class="action">
+          <div v-b-modal.modify-coin-modal class="action">
             <b-icon variant="warning" scale=1.75 icon="sliders"></b-icon>
             <h3>Modificar</h3>
           </div>
-          <div class="action">
+          <div v-b-modal.consult-coin-modal class="action">
             <b-icon variant="dark" scale=1.75 icon="question-circle-fill"></b-icon>
             <h3>Consultar</h3>
           </div>
@@ -108,24 +108,32 @@
     </div>
     <!-- MODALS -->
     <AddBillModal/>
+    <AddCoinModal/>
     <DelBillModal/>
+    <DelCoinModal/>
     <ModBillModal/>
+    <ModCoinModal/>
     <ConsultBillModal/> 
+    <ConsultCoinModal/> 
   
   </div>
 </template>
 <script>
-import axios from 'axios';
-import config from '../util/config';
 import AddBillModal from '../components/admin_modals/AddBillModal';
+import AddCoinModal from '../components/admin_modals/AddCoinModal';
 import ModBillModal from '../components/admin_modals/ModBillModal';
+import ModCoinModal from '../components/admin_modals/ModCoinModal';
 import DelBillModal from '../components/admin_modals/DelBillModal';
-import ConsultBillModal from '../components/admin_modals/ConsultBillModal' 
+import DelCoinModal from '../components/admin_modals/DelCoinModal';
+import ConsultBillModal from '../components/admin_modals/ConsultBillModal';
+import ConsultCoinModal from '../components/admin_modals/ConsultCoinModal';
+import EventBus from '../util/eventBus';
 
 export default {
   name: "Admin",
   components: {
     AddBillModal, ModBillModal, DelBillModal, ConsultBillModal,
+    AddCoinModal, ModCoinModal, DelCoinModal, ConsultCoinModal
   },
   data: function(){
     return {
@@ -134,29 +142,21 @@ export default {
     }
   },
   methods: {
-    getBillsInfo: function(){
-
-      var ls = localStorage
-      var currentContext = this
-      axios({
-        method: 'get',
-        url: config.serverURL + config.APIEndpoints.Lot.Bill.getAll,
-        headers: {
-          'Authorization': ls.getItem('jwt'),
-          'Content-Type': 'application/json'
-        }
-      })      
-      .then(res => {
-        currentContext.billsInfo = res.data
-      })
-    },
     getAdminInfo: function(){
-      return JSON.parse(localStorage.getItem('userData'))
+      this.$data.adminInfo = JSON.parse(localStorage.getItem('userData'))
+    },
+    showModBillModal: function(){
+      this.$bvModal.show('modify-bill-modal')
+    },
+    showModCoinModal: function(){
+      this.$bvModal.show('modify-coin-modal')
     }
   },
   mounted: function(){
-    this.$data.adminInfo = this.getAdminInfo()
-    this.getBillsInfo()
+    this.getAdminInfo()
+    var currentContext = this
+    EventBus.$on('LOAD_MOD_BILL_CONSULT', () => {currentContext.showModBillModal()})
+    EventBus.$on('LOAD_MOD_COIN_CONSULT', () => {currentContext.showModCoinModal()})
   }  
 }
 </script>
@@ -212,8 +212,6 @@ export default {
   cursor: pointer;
   transform: scale(1.15);
 }
-
-
 
 h2 {
   font-family: 'Oswald', sans-serif;
