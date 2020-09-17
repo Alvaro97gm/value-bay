@@ -47,6 +47,19 @@ public class CoinController {
         return ResponseEntity.ok(result);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/free")
+    public ResponseEntity<List<CoinDTO>> getFreeCoins(){
+
+        List<CoinDTO> result = coinMapper.coinsToCoinDTOs(coinService.findFree());
+        if(result.isEmpty()){
+            System.out.println("[COINS] - No existen lotes libres");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> insertCoin(

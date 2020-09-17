@@ -9,13 +9,15 @@ export default {
       Bill: {
         insert: '/bills/insert',      
         get: '/bills/get/',           
-        getAll: '/bills/get/all',     
+        getAll: '/bills/get/all',
+        getFree: '/bills/get/free',  
         modify: '/bills/mod/',
         delete: '/bills/delete/'
       },
       Coin: {
         insert: '/coins/insert',
         get: '/coins/get/',
+        getFree: '/coins/get/free',
         getAll: '/coins/get/all',
         modify: '/coins/mod/',
         delete: '/coins/delete/'

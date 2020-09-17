@@ -49,14 +49,18 @@ public class AuctionController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> createAuction(
-            @RequestParam(value = "auctionId") Integer auctionId,
+            @RequestParam(value = "name") String name,
             @RequestParam(value = "lotIds", required = false) List<Integer> lotIds,
-            @RequestParam(value = "hoursActive", required = false) Integer hoursActive
+            @RequestParam(value = "active") boolean active,
+            @RequestParam(value = "activationTime") long activationTime,
+            @RequestParam(value = "duration") Integer duration
     ){
 
         try{
-            auctionService.insertAuction(auctionService.createAuctionDTO(auctionId, lotIds, hoursActive));
-            System.out.println("[AUCTIONS] - Subasta: " + auctionId + " insertada en el sistema." );
+            auctionService.insertAuction(
+                auctionService.createAuctionDTO(name, lotIds, active, new Date(activationTime), duration)
+            );
+            System.out.println("[AUCTIONS] - Subasta insertada en el sistema." );
             return ResponseEntity.ok().build();
         }catch (Exception e){
             System.out.println(e.getMessage());

@@ -62,7 +62,7 @@
           Gestión de <span class="green-text">Subastas</span>
         </h4>
         <div class="actions">
-          <div class="action">
+          <div v-b-modal.add-auction-modal class="action">
             <b-icon variant="success" scale=1.75 icon="plus-circle-fill"></b-icon>
             <h3>Añadir</h3>
           </div>
@@ -109,6 +109,7 @@
     <!-- MODALS -->
     <AddBillModal/>
     <AddCoinModal/>
+    <AddAuctionModal/>
     <DelBillModal/>
     <DelCoinModal/>
     <ModBillModal/>
@@ -121,6 +122,7 @@
 <script>
 import AddBillModal from '../components/admin_modals/AddBillModal';
 import AddCoinModal from '../components/admin_modals/AddCoinModal';
+import AddAuctionModal from '../components/admin_modals/AddAuctionModal';
 import ModBillModal from '../components/admin_modals/ModBillModal';
 import ModCoinModal from '../components/admin_modals/ModCoinModal';
 import DelBillModal from '../components/admin_modals/DelBillModal';
@@ -133,7 +135,8 @@ export default {
   name: "Admin",
   components: {
     AddBillModal, ModBillModal, DelBillModal, ConsultBillModal,
-    AddCoinModal, ModCoinModal, DelCoinModal, ConsultCoinModal
+    AddCoinModal, ModCoinModal, DelCoinModal, ConsultCoinModal,
+    AddAuctionModal, 
   },
   data: function(){
     return {

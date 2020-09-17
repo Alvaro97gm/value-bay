@@ -59,8 +59,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication
         (HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth)
     {
-        // Spring doesn't permit dependency injection in Filter,
-        // so we have to load UserService Bean manually
+        // Spring doesn't permit dependency injection in Filters,
+        // so we have to load UserService and UserMapper Beans manually
         if(userService == null){
             ServletContext servContext = req.getServletContext();
             WebApplicationContext webContext = WebApplicationContextUtils.getWebApplicationContext(servContext);

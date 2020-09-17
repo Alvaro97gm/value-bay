@@ -6,23 +6,37 @@ import java.util.List;
 public class AuctionDTO {
 
     private Integer auctionId;
-    private List<Integer> lotIds;
-    private Date endTime;
+    private String name;
     private boolean active;
+    private List<Integer> lotIds;
+    private Date activationTime;
+    private Integer duration;
 
     public AuctionDTO(){}
-    public AuctionDTO(Integer auctionId, Date endTime, boolean active){
+    public AuctionDTO(
+        Integer auctionId, String name, boolean active, Date activationTime, Integer duration
+    ){
         this.auctionId = auctionId;
-        this.endTime = endTime;
+        this.name = name;
         this.active = active;
+        this.activationTime = activationTime;
+        this.duration = duration;
     }
 
     public Integer getAuctionId() {
         return auctionId;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public String getName() {
+        return name;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public Date getActivationTime() {
+        return activationTime;
     }
 
     public List<Integer> getLotIds() {
@@ -37,8 +51,16 @@ public class AuctionDTO {
         this.auctionId = auctionId;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public void setActivationTime(Date activationTime) {
+        this.activationTime = activationTime;
     }
 
     public void setLotIds(List<Integer> lotIds) {

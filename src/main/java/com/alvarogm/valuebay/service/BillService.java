@@ -4,12 +4,14 @@ import com.alvarogm.valuebay.persistence.domain.ConservationStatus;
 import com.alvarogm.valuebay.persistence.domain.dto.BillDTO;
 import com.alvarogm.valuebay.persistence.domain.mapper.BillMapper;
 import com.alvarogm.valuebay.persistence.domain.model.Bill;
+import com.alvarogm.valuebay.persistence.domain.model.Coin;
 import com.alvarogm.valuebay.persistence.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BillService {
@@ -23,6 +25,16 @@ public class BillService {
 
     public List<Bill> findAll(){
         return billRepository.findAll();
+    }
+
+
+    public List<Bill> findFree() {
+
+        List<Bill> freeCoins = billRepository.findAll();
+
+        return freeCoins.stream().filter(
+                coin -> coin.getFkAuction() == null
+        ).collect(Collectors.toList());
     }
 
 
@@ -50,7 +62,7 @@ public class BillService {
                            @Nullable String conservationStatus, @Nullable Float price,
                            @Nullable Integer fkAuction){
 
-        Bill bill = findByLotId(lotId);
+        Bill bill = this.findByLotId(lotId);
         if(bill != null){
             if(itemValue != null) bill.setItemValue(itemValue);
             if(emissionYear != null) bill.setEmissionYear(emissionYear);

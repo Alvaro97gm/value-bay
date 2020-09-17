@@ -10,6 +10,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,6 +27,14 @@ public class CoinService{
         return coinRepository.findAll();
     }
 
+    public List<Coin> findFree() {
+
+        List<Coin> freeCoins = coinRepository.findAll();
+
+        return freeCoins.stream().filter(
+                coin -> coin.getFkAuction() == null
+        ).collect(Collectors.toList());
+    }
 
     public Coin findByLotId(Integer lotId){
         return coinRepository.findByLotId(lotId);

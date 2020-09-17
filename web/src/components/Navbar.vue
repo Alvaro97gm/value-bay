@@ -18,6 +18,7 @@
       </b-button>
       <b-button
         class="margin-right-1em"
+        @click="loadLotsView()"
         variant="success">
         Artículos
       </b-button>      
@@ -72,12 +73,15 @@ export default {
      isAdmin: function(){
        return JSON.parse(localStorage.getItem('userData')).role === 'ADMIN'
      },
+     loadHomeView: function(){
+       EventBus.$emit('SHOW_HOME')
+     },
+     loadLotsView: function(){
+       EventBus.$emit('SHOW_LOTS')
+     },
      loadAdminView: function(){
        EventBus.$emit('SHOW_ADMIN')
      },
-     loadHomeView: function(){
-       EventBus.$emit('SHOW_HOME')
-     }
    }
 }
 </script>

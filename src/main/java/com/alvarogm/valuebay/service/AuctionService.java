@@ -52,12 +52,13 @@ public class AuctionService{
     }
 
 
-    public void modifyAuction(Integer auctionId, @Nullable Date endTime, @Nullable List<Integer> addLotIds,
-                              @Nullable List<Integer> delLotIds, @Nullable Boolean active){
+    public void modifyAuction(
+        Integer auctionId, @Nullable Date activationTime, @Nullable List<Integer> addLotIds,
+        @Nullable List<Integer> delLotIds, @Nullable Boolean active){
 
         Auction auction = auctionMapper.auctionDTOToAuction(findByAuctionId(auctionId));
         if(auction != null){
-            if(endTime != null) auction.setEndTime(endTime);
+            if(activationTime != null) auction.setActivationTime(activationTime);
             if(addLotIds != null && !addLotIds.isEmpty()) {
                 billService.findLotAndSetFkAuction(auctionId, addLotIds);
                 coinService.findLotAndSetFkAuction(auctionId, addLotIds);
@@ -73,20 +74,17 @@ public class AuctionService{
     }
 
 
-    public AuctionDTO createAuctionDTO(Integer auctionId, List<Integer> lotIds, Integer hoursActive){
+    public AuctionDTO createAuctionDTO(
+        String name, List<Integer> lotIds, boolean active, Date activationTime, Integer duration
+    ){
 
         int HOUR_IN_MILLISECONDS = 3600 * 1000;
+        AuctionDTO auctionDTO = new AuctionDTO(
+            CommonService.generate5DigitsId(), name, active, activationTime, duration
+        );
 
-        AuctionDTO auctionDTO = new AuctionDTO();
-        auctionDTO.setAuctionId(auctionId);
-
-        if(!lotIds.isEmpty())
+        if(lotIds != null)
             auctionDTO.setLotIds(lotIds);
-
-        if(hoursActive != null)
-            auctionDTO.setEndTime(new Date(System.currentTimeMillis() + (hoursActive * HOUR_IN_MILLISECONDS)));
-        else
-            auctionDTO.setEndTime(new Date(System.currentTimeMillis() + (24 * HOUR_IN_MILLISECONDS)));
 
         return auctionDTO;
     }

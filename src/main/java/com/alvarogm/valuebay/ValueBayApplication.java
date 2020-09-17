@@ -18,6 +18,6 @@ public class ValueBayApplication implements WebMvcConfigurer {
 		registry
 			.addMapping("/**")
 			.allowedOrigins("http://localhost:8080")
-			.allowedMethods("GET","POST","DELETE");
+			.allowedMethods("*");
 	}
 }

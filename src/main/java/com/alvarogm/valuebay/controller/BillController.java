@@ -1,6 +1,7 @@
 package com.alvarogm.valuebay.controller;
 
 import com.alvarogm.valuebay.persistence.domain.dto.BillDTO;
+import com.alvarogm.valuebay.persistence.domain.dto.CoinDTO;
 import com.alvarogm.valuebay.persistence.domain.mapper.BillMapper;
 import com.alvarogm.valuebay.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,18 @@ public class BillController {
         List<BillDTO> result = billMapper.billsToBillDTOs(billService.findAll());
         if (result.isEmpty()){
             System.out.println("[BILLS] - No se han encontrado ningún lote.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/free")
+    public ResponseEntity<List<BillDTO>> getFreeBills(){
+
+        List<BillDTO> result = billMapper.billsToBillDTOs(billService.findFree());
+        if(result.isEmpty()){
+            System.out.println("[BILLS] - No existen lotes libres");
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.ok(result);

@@ -11,21 +11,30 @@ public class Auction {
 
     @Id
     private Integer auctionId;
-    private Date endTime;
+    private String name;
     private boolean active;
+    private Date activationTime;
+    private Integer duration;
 
     public Auction(){}
-    public Auction(Integer auctionId, Date endTime){
+    public Auction(Integer auctionId){
         this.auctionId = auctionId;
-        this.endTime = endTime;
     }
 
     public Integer getAuctionId() {
         return auctionId;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public String getName() {
+        return name;
+    }
+
+    public Date getActivationTime() {
+        return activationTime;
+    }
+
+    public Integer getDuration() {
+        return duration;
     }
 
     public boolean isActive() {
@@ -36,8 +45,16 @@ public class Auction {
         this.auctionId = auctionId;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setActivationTime(Date activationTime) {
+        this.activationTime = activationTime;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public void setActive(boolean active) {
