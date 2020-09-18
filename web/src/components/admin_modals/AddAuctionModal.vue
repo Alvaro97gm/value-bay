@@ -179,7 +179,7 @@ export default {
 // TODO: Modelar las subastas para soportar timing, nombre, duración...
 // ==============================================
 
-    // TODO: Los que no tengan subasta - Nuevo endpoint 
+
     getFreeBills: function(){
 
       var ls = localStorage
@@ -197,7 +197,7 @@ export default {
       })
     },
 
-    // TODO: Los que no tengan subasta - Nuevo endpoint 
+
     getFreeCoins: function(){
 
       var ls = localStorage

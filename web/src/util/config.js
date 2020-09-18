@@ -27,6 +27,9 @@ export default {
       insert: '/auctions/insert',
       get: '/auctions/get/',
       getAll: '/auctions/get/all',
+      getNext: '/auctions/get/next',
+      getActive: '/auctions/get/active',
+      getClosed: '/auctions/get/closed',
       modify: '/auctions/mod/',
       delete: '/auctions/delete/'
     }

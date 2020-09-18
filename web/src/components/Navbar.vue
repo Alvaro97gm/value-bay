@@ -13,6 +13,7 @@
       </b-button>
       <b-button
         class="margin-right-1em"
+        @click="loadAuctionsView()"
         variant="success">
         Subastas
       </b-button>
@@ -27,7 +28,7 @@
         text="Mi cuenta" 
         variant="success"
         right>
-        <b-dropdown-item variant="success"> 
+        <b-dropdown-item @click="loadProfileView()" variant="success"> 
           <b-icon class="margin-right-0_5em" icon="person"></b-icon>
           Mi perfil
         </b-dropdown-item>
@@ -38,10 +39,6 @@
         <b-dropdown-item variant="success"> 
           <b-icon class="margin-right-0_5em" icon="arrow-left-right"></b-icon>
           Historial de transacciones
-        </b-dropdown-item>
-        <b-dropdown-item variant="success"> 
-          <b-icon class="margin-right-0_5em" icon="envelope"></b-icon>
-          Notificaciones
         </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item variant="success" @click="loadAdminView()" v-if="isAdmin()"> 
@@ -76,12 +73,18 @@ export default {
      loadHomeView: function(){
        EventBus.$emit('SHOW_HOME')
      },
+     loadAuctionsView: function(){
+       EventBus.$emit('SHOW_AUCTIONS')
+     },
      loadLotsView: function(){
        EventBus.$emit('SHOW_LOTS')
      },
      loadAdminView: function(){
        EventBus.$emit('SHOW_ADMIN')
      },
+     loadProfileView: function(){
+       EventBus.$emit('SHOW_PROFILE')
+     }
    }
 }
 </script>

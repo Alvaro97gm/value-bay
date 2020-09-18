@@ -46,6 +46,49 @@ public class AuctionController {
         return ResponseEntity.ok(result);
     }
 
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/active", produces = "application/json")
+    public ResponseEntity<List<AuctionDTO>> getActiveAuctions(){
+
+        List<AuctionDTO> result = auctionService.findActiveAuctions();
+
+        if(result.isEmpty()){
+            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/next", produces = "application/json")
+    public ResponseEntity<List<AuctionDTO>> getNextAuctions(){
+
+        List<AuctionDTO> result = auctionService.findNextAuctions();
+
+        if(result.isEmpty()){
+            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/closed", produces = "application/json")
+    public ResponseEntity<List<AuctionDTO>> getClosedAuctions(){
+
+        List<AuctionDTO> result = auctionService.findClosedAuctions();
+
+        if(result.isEmpty()){
+            System.out.println("[AUCTIONS] - No se ha encontrado ninguna ocurrencia.");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/insert", produces = "application/json")
     public ResponseEntity<ResponseStatus> createAuction(

@@ -164,7 +164,6 @@ export default {
       })
     },
 
-    // TODO: Añadir verificación de correo electrónico
     isValidInfo: function(){
       return (
         this.userName != ""           &&

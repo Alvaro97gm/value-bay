@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuctionService{
@@ -31,6 +32,26 @@ public class AuctionService{
         return auctionMapper.auctionsToAuctionDTOs(auctionRepository.findAll());
     }
 
+    public List<AuctionDTO> findNextAuctions() {
+        return this.findAll().stream().filter(
+            auction -> auction.getActivationTime().getTime() > System.currentTimeMillis()
+        ).collect(Collectors.toList());
+    }
+
+    public List<AuctionDTO> findActiveAuctions() {
+
+        return this.findAll().stream().filter(
+            auction -> auction.getActivationTime().getTime() < System.currentTimeMillis() &&
+                    System.currentTimeMillis() < auction.getActivationTime().getTime() + (auction.getDuration() * 60 * 60 * 1000)
+        ).collect(Collectors.toList());
+    }
+
+    public List<AuctionDTO> findClosedAuctions(){
+
+        return this.findAll().stream().filter(
+            auction -> System.currentTimeMillis() > auction.getActivationTime().getTime() + (auction.getDuration() * 60 * 60 * 1000)
+        ).collect(Collectors.toList());
+    }
 
     public AuctionDTO findByAuctionId(Integer auctionId){
         return auctionMapper.auctionToAuctionDTO(auctionRepository.findByAuctionId(auctionId));
@@ -78,7 +99,6 @@ public class AuctionService{
         String name, List<Integer> lotIds, boolean active, Date activationTime, Integer duration
     ){
 
-        int HOUR_IN_MILLISECONDS = 3600 * 1000;
         AuctionDTO auctionDTO = new AuctionDTO(
             CommonService.generate5DigitsId(), name, active, activationTime, duration
         );

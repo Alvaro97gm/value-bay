@@ -84,4 +84,20 @@ INSERT INTO users VALUES (12629, 'Alvaro97gm@gmail.com', 'Alvaro', 'Garcia Merin
 INSERT INTO users VALUES (83221, 'Juancar922@gmail.com', 'Juan Carlos', 'Pérez Acebrón', '$2b$10$3euPcmQFCiblsZeEwrntu5s7p.kSDWFDk9nhMqZ0m/3pd/lhwasgES', 'USER');
 INSERT INTO users VALUES (91164, 'ochtyruj@gmail.com', 'Jorge', 'Retuerta Merino', '$2b$10$3euPcFe6trblsZeEu5s7p.lSVHgeHWFDk9nhMqZ0m/3pd/lhwZgES', 'USER');
 INSERT INTO users VALUES (52736, 'slash270897@gmail.com', 'David', 'Ramos Oliva', '$2b$10$3eASDQWsdgB6sZeEu5s7p.lt72heHWFDk9nhMqZ0m/3pd/lhwZgES', 'USER');
+--------------------------------------
 
+-- BIDS SECTION ----------------------
+DROP TABLE IF EXISTS bids;
+
+CREATE TABLE bids (
+    bid_id        INT         PRIMARY KEY,
+    amount        FLOAT       NOT NULL,
+    fk_lot_c      INT,
+    fk_lot_b      INT,
+    fk_user       INT         NOT NULL
+);
+ALTER TABLE bids ADD FOREIGN KEY (fk_lot_c) REFERENCES coins(lot_id) ON DELETE CASCADE;
+ALTER TABLE bids ADD FOREIGN KEY (fk_lot_b) REFERENCES bills(lot_id) ON DELETE CASCADE;
+ALTER TABLE bids ADD FOREIGN KEY (fk_user) REFERENCES users(user_id) ON DELETE CASCADE;
+
+INSERT INTO bids VALUES(83736, 200.0, 39832, null, 99999);
