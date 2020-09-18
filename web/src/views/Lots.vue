@@ -27,6 +27,10 @@
               {{ selectedArticle.type }} de {{ selectedArticle.itemValue }} pesetas de {{ selectedArticle.emissionYear }}          
             </h4>
             <span class="small-text green">ID: {{ selectedArticleId }}</span>
+            <b-badge v-if="auctionStatus === 'active'" pill variant="success">En subasta</b-badge>                    
+            <b-badge v-else-if="auctionStatus === 'next'" pill variant="warning">Programado para subasta</b-badge>
+            <b-badge v-else-if="auctionStatus === 'closed'" pill variant="dark">Adjudicado</b-badge>
+            <b-badge v-else pill variant="danger">Próximamente en subasta</b-badge>
 
             <b-card class="info-card" no-body>
               <b-card-header role="tab">
@@ -58,29 +62,7 @@
                   </b-list-group-item>
                   <b-list-group-item><code class="green bold">Precio inicial: </code>{{selectedArticle.price}} €</b-list-group-item>
                 </b-list-group>
-              </b-collapse>
-
-              <b-card-header role="tab">
-                <b-button 
-                  v-b-toggle.auction-info
-                  block 
-                  variant="dark"
-                  @click="toogleImage(1)">
-                  <span class="bold">Información de subasta</span>
-                </b-button>
-              </b-card-header>
-              <b-collapse id="auction-info" accordion="lotInfo" role="tabpanel">
-                <b-card-body>                
-                    <b-badge pill variant="success">En subasta</b-badge>
-                    <b-progress  value="27" max="100" variant="success" show-progress animated></b-progress>
-                    <br>
-                    <b-badge pill variant="warning">Programado para subasta</b-badge>
-                    <b-progress value="85" max="100" variant="warning" show-progress animated></b-progress>
-                    <br>
-                    <b-badge pill variant="danger">Próximamente en subasta</b-badge>
-                    <br>
-                    <b-badge pill variant="dark">Adjudicado</b-badge>
-                </b-card-body>
+                
               </b-collapse>
             </b-card>
           </div>
@@ -108,7 +90,8 @@ export default {
       selectedArticleId: null,
       selectedArticleType: null,
       selectedArticle: null,
-      lastSelectedInfo: null      
+      lastSelectedInfo: null,
+      auctionStatus: null,  
     }
   },
   methods: {
@@ -169,6 +152,7 @@ export default {
     getArticle: function(lotId){
 
       var routedPath, isBill
+      var currentContext = this
       var localData = this.$data
       var ls = localStorage
       
@@ -196,10 +180,35 @@ export default {
             localData.selectedArticle.type = "Billete"
           else
             localData.selectedArticle.type = "Moneda"
+          currentContext.getAuctionStatus();
         }else{
           this.$root.customAlert(configAlert.NOT_FOUND) 
         }
       })
+    },
+    getAuctionStatus: function(){
+      if(this.$data.selectedArticle === null || this.$data.selectedArticle.fkAuction === null){
+        this.$data.auctionStatus = null
+        return
+      }
+
+      var ls = localStorage
+      var currentContext = this
+      axios({
+        method: 'get',
+        url: config.serverURL + config.APIEndpoints.Auction.getStatus + currentContext.$data.selectedArticle.fkAuction,
+        headers: {
+          "Authorization": ls.getItem('jwt'),
+          'Content-Type': "application/json"
+        }
+      })
+      .then(res => {
+        if(res.status === 200){
+          currentContext.$data.auctionStatus = res.data          
+        }else{
+          this.$root.customAlert(configAlert.NOT_FOUND) 
+        }
+      })    
     }
   },
   mounted: function(){
@@ -207,7 +216,7 @@ export default {
     EventBus.$on('SELECT_ARTICLE', (lotId, lotType) => {
       currentContext.$data.selectedArticleId = lotId
       currentContext.$data.selectedArticleType = lotType
-      currentContext.$data.selectedArticle = currentContext.getArticle(lotId)      
+      currentContext.$data.selectedArticle = currentContext.getArticle(lotId) 
     })
   }
 }

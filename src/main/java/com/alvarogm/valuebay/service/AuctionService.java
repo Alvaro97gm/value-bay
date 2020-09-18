@@ -108,4 +108,17 @@ public class AuctionService{
 
         return auctionDTO;
     }
+
+
+    public String getStatus(Integer auctionId){
+        Auction auction = auctionRepository.findByAuctionId(auctionId);
+
+        if(auction.getActivationTime().getTime() > System.currentTimeMillis())
+            return "next";
+        else if(auction.getActivationTime().getTime() < System.currentTimeMillis()
+            && System.currentTimeMillis() < auction.getActivationTime().getTime() + auction.getDuration() * 3600000)
+            return "active";
+        else
+            return "closed";
+    }
 }

@@ -12,6 +12,7 @@ public class BillDTO {
     private String conservationStatus;
     private String conservationStatusDetailed;
     private float price;
+    private Integer fkAuction;
     private List<String> picturesURLs;
 
     public BillDTO(){}
@@ -29,6 +30,10 @@ public class BillDTO {
 
     public int getLotId() {
         return lotId;
+    }
+
+    public Integer getFkAuction() {
+        return fkAuction;
     }
 
     public int getItemValue() {
@@ -63,6 +68,10 @@ public class BillDTO {
         return picturesURLs;
     }
 
+
+    public void setFkAuction(Integer fkAuction) {
+        this.fkAuction = fkAuction;
+    }
 
     public void setLotId(int lotId) {
         this.lotId = lotId;

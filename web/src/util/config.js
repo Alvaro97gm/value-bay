@@ -30,8 +30,14 @@ export default {
       getNext: '/auctions/get/next',
       getActive: '/auctions/get/active',
       getClosed: '/auctions/get/closed',
+      getStatus: '/auctions/get/status/',
       modify: '/auctions/mod/',
       delete: '/auctions/delete/'
+    },
+    Bid: {
+      getAll: '/bids/get/all',
+      getByUserId: '/bids/get/userId/',
+      getByLotId: '/bids/get/lotId/'
     }
   }
 }

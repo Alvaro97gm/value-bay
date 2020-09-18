@@ -2,8 +2,9 @@
   <div id="home">
     <Navbar/>
     <Admin v-if="views.admin"/>    
+    <UserBids v-else-if="views.userBids"/>
     <Lots v-else-if="views.lots"/>
-    <Profile v-else-if="views.profile"/>
+    <Profile v-else-if="views.profile"/>    
     <Auctions v-else-if="views.auctions"/>
     
     <div id="homePage" v-else>
@@ -34,6 +35,7 @@ import Admin from './Admin';
 import Lots from './Lots';
 import Auctions from './Auctions';
 import Profile from './Profile';
+import UserBids from './UserBids';
 import EventBus from '../util/eventBus';
 
 export default {
@@ -43,6 +45,7 @@ export default {
     Admin,
     Lots, 
     Profile,
+    UserBids,
     Auctions
   },
   data: function(){
@@ -51,7 +54,8 @@ export default {
         admin: false,
         lots: false,
         profile: false,
-        auctions: false
+        auctions: false,
+        userBids: false
       },
       userData: null,
       coinLots: [],
@@ -70,21 +74,32 @@ export default {
       this.$data.views.lots = false;
       this.$data.views.auctions = false;
       this.$data.views.profile = false;
+      this.$data.views.userBids = false;
     },
     renderAuctionsView: function(){
       this.$data.views.auctions = true;
       this.$data.views.lots = false;
       this.$data.views.admin = false;
       this.$data.views.profile = false;
+      this.$data.views.userBids = false;
     },
     renderLotsView: function(){
       this.$data.views.lots = true;
       this.$data.views.admin = false;
       this.$data.views.auctions = false;
       this.$data.views.profile = false;
+      this.$data.views.userBids = false;
     },
     renderProfileView: function(){
       this.$data.views.profile = true;
+      this.$data.views.admin = false;
+      this.$data.views.auctions = false;
+      this.$data.views.lots = false;
+      this.$data.views.userBids = false;
+    },
+    renderUserBidsView: function(){
+      this.$data.views.userBids = true;
+      this.$data.views.profile = false;
       this.$data.views.admin = false;
       this.$data.views.auctions = false;
       this.$data.views.lots = false;
@@ -94,6 +109,7 @@ export default {
       this.$data.views.lots = false;
       this.$data.views.auctions = false;
       this.$data.views.profile = false;
+      this.$data.views.userBids = false;
     }
   },
   beforeMount: function(){
@@ -103,6 +119,7 @@ export default {
   mounted: function(){
 
     var currentContext = this
+    EventBus.$on('SHOW_USERBIDS', () => {currentContext.renderUserBidsView()})
     EventBus.$on('SHOW_ADMIN', () => {currentContext.renderAdminView()})
     EventBus.$on('SHOW_LOTS', () => {currentContext.renderLotsView()})
     EventBus.$on('SHOW_HOME', () => {currentContext.renderHomeView()})

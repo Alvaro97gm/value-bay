@@ -90,14 +90,19 @@ INSERT INTO users VALUES (52736, 'slash270897@gmail.com', 'David', 'Ramos Oliva'
 DROP TABLE IF EXISTS bids;
 
 CREATE TABLE bids (
-    bid_id        INT         PRIMARY KEY,
-    amount        FLOAT       NOT NULL,
-    fk_lot_c      INT,
-    fk_lot_b      INT,
-    fk_user       INT         NOT NULL
+    bid_id          INT         PRIMARY KEY,
+    amount          FLOAT       NOT NULL,
+    fk_user         INT         NOT NULL,
+    fk_bill         INT,
+    fk_coin         INT
 );
-ALTER TABLE bids ADD FOREIGN KEY (fk_lot_c) REFERENCES coins(lot_id) ON DELETE CASCADE;
-ALTER TABLE bids ADD FOREIGN KEY (fk_lot_b) REFERENCES bills(lot_id) ON DELETE CASCADE;
+ALTER TABLE bids ADD FOREIGN KEY (fk_coin) REFERENCES coins(lot_id) ON DELETE CASCADE;
+ALTER TABLE bids ADD FOREIGN KEY (fk_bill) REFERENCES bills(lot_id) ON DELETE CASCADE;
 ALTER TABLE bids ADD FOREIGN KEY (fk_user) REFERENCES users(user_id) ON DELETE CASCADE;
 
-INSERT INTO bids VALUES(83736, 200.0, 39832, null, 99999);
+INSERT INTO bids VALUES(83736, 200.0, 99999, null, 18463);
+INSERT INTO bids VALUES(51823, 10.0, 12629, 11823, null);
+INSERT INTO bids VALUES(12367, 150.0, 91164, 46457, null);
+INSERT INTO bids VALUES(87634, 300.0, 83221, null, 18463);
+INSERT INTO bids VALUES(99362, 350.0, 12629, null, 18463);
+INSERT INTO bids VALUES(23882, 4000.0, 83221, 11823, null);

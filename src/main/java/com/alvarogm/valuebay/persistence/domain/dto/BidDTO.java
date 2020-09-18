@@ -1,23 +1,34 @@
 package com.alvarogm.valuebay.persistence.domain.dto;
 
+import com.alvarogm.valuebay.service.CommonService;
+
 public class BidDTO {
 
     private Integer bidId;
-    private Integer fk_user;
-    private Integer fk_lot_c;
-    private Integer fk_lot_m;
+    private Integer fkUser;
+    private Integer fkCoin;
+    private Integer fkBill;
     private float amount;
 
-    public Integer getFk_user() {
-        return fk_user;
+    public BidDTO(){}
+    public BidDTO(Integer fkUser,Integer fkCoin, Integer fkBill, float amount){
+        this.bidId = CommonService.generate5DigitsId();
+        this.fkUser = fkUser;
+        this.fkCoin = fkCoin;
+        this.fkBill = fkBill;
+        this.amount = amount;
     }
 
-    public Integer getFk_lot_c() {
-        return fk_lot_c;
+    public Integer getFkUser() {
+        return fkUser;
     }
 
-    public Integer getFk_lot_m() {
-        return fk_lot_m;
+    public Integer getFkCoin() {
+        return fkCoin;
+    }
+
+    public Integer getFkBill() {
+        return fkBill;
     }
 
     public Integer getBidId() {
@@ -28,16 +39,16 @@ public class BidDTO {
         return amount;
     }
 
-    public void setFk_user(Integer fk_user) {
-        this.fk_user = fk_user;
+    public void setFkUser(Integer fkUser) {
+        this.fkUser = fkUser;
     }
 
-    public void setFk_lot_c(Integer fk_lot_c) {
-        this.fk_lot_c = fk_lot_c;
+    public void setFkCoin(Integer fkCoin) {
+        this.fkCoin = fkCoin;
     }
 
-    public void setFk_lot_m(Integer fk_lot_m) {
-        this.fk_lot_m = fk_lot_m;
+    public void setFkBill(Integer fkBill) {
+        this.fkBill = fkBill;
     }
 
     public void setBidId(Integer bidId) {

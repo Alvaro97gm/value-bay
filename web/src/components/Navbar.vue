@@ -32,7 +32,7 @@
           <b-icon class="margin-right-0_5em" icon="person"></b-icon>
           Mi perfil
         </b-dropdown-item>
-        <b-dropdown-item variant="success"> 
+        <b-dropdown-item @click="loadUserBidsView()" variant="success"> 
           <b-icon class="margin-right-0_5em" icon="award"></b-icon>
           Mis pujas
         </b-dropdown-item>        
@@ -84,6 +84,9 @@ export default {
      },
      loadProfileView: function(){
        EventBus.$emit('SHOW_PROFILE')
+     },
+     loadUserBidsView: function(){
+       EventBus.$emit('SHOW_USERBIDS')
      }
    }
 }

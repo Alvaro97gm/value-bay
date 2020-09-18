@@ -10,6 +10,7 @@ public class CoinDTO {
     private String conservationStatus;
     private String conservationStatusDetailed;
     private float price;
+    private Integer fkAuction;
     private List<String> picturesURLs;
 
     public CoinDTO(){}
@@ -24,6 +25,10 @@ public class CoinDTO {
 
     public Integer getLotId() {
         return lotId;
+    }
+
+    public Integer getFkAuction() {
+        return fkAuction;
     }
 
     public Integer getItemValue() {
@@ -52,6 +57,10 @@ public class CoinDTO {
 
     public void setLotId(Integer lotId) {
         this.lotId = lotId;
+    }
+
+    public void setFkAuction(Integer fkAuction) {
+        this.fkAuction = fkAuction;
     }
 
     public void setItemValue(Integer itemValue) {

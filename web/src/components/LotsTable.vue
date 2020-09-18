@@ -4,7 +4,6 @@
       id="lots"
       hover
       selectable
-      
       no-border-collapse
       sticky-header="75vh"
       selected-variant="success"        
@@ -66,7 +65,7 @@ export default {
             "Fecha": lot.emissionDay + '/' + lot.emissionMonth + '/' + lot.emissionYear,
             "Conservación": lot.conservationStatus + ' - ' + lot.conservationStatusDetailed,
             "Precio": lot.price,
-            "Subasta": "NOT_IMPLEMENTED"
+            "Subasta": lot.fkAuction === null ? 'Sin subasta' : lot.fkAuction
           }
         // Coin
         } else {
@@ -77,7 +76,7 @@ export default {
             "Fecha": lot.emissionYear,
             "Conservación": lot.conservationStatus + ' - ' + lot.conservationStatusDetailed,
             "Precio": lot.price,
-            "Subasta": "NOT_IMPLEMENTED"
+            "Subasta": lot.fkAuction === null ? 'Sin subasta' : lot.fkAuction
           }
         }
         

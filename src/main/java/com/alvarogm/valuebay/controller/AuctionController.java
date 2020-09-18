@@ -76,6 +76,19 @@ public class AuctionController {
 
 
     @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/get/status/{id}", produces = "application/json")
+    public ResponseEntity<String> getAuctionStatus(@PathVariable(name = "id") Integer auctionId){
+
+        String result = auctionService.getStatus(auctionId);
+
+        if(result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER') OR hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/get/closed", produces = "application/json")
     public ResponseEntity<List<AuctionDTO>> getClosedAuctions(){
 

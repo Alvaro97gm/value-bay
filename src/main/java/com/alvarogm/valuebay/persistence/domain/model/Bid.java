@@ -10,9 +10,9 @@ public class Bid {
 
     @Id
     private Integer bidId;
-    private Integer fk_lot_c;
-    private Integer fk_lot_b;
-    private Integer fk_user;
+    private Integer fkBill;
+    private Integer fkCoin;
+    private Integer fkUser;
     private float amount;
 
     public float getAmount() {
@@ -23,16 +23,16 @@ public class Bid {
         return bidId;
     }
 
-    public Integer getFk_lot_b() {
-        return fk_lot_b;
+    public Integer getFkBill() {
+        return fkBill;
     }
 
-    public Integer getFk_lot_c() {
-        return fk_lot_c;
+    public Integer getFkCoin() {
+        return fkCoin;
     }
 
-    public Integer getFk_user() {
-        return fk_user;
+    public Integer getFkUser() {
+        return fkUser;
     }
 
     public void setAmount(float amount) {
@@ -43,15 +43,15 @@ public class Bid {
         this.bidId = bidId;
     }
 
-    public void setFk_lot_b(Integer fk_lot_b) {
-        this.fk_lot_b = fk_lot_b;
+    public void setFkBill(Integer fkBill) {
+        this.fkBill = fkBill;
     }
 
-    public void setFk_lot_c(Integer fk_lot_c) {
-        this.fk_lot_c = fk_lot_c;
+    public void setFkCoin(Integer fkCoin) {
+        this.fkCoin = fkCoin;
     }
 
-    public void setFk_user(Integer fk_user) {
-        this.fk_user = fk_user;
+    public void setFkUser(Integer fkUser) {
+        this.fkUser = fkUser;
     }
 }
